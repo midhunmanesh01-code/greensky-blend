@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-primary: #1d4ed8;
+    --color-secondary: #16a34a;
+    --color-accent: #0ea5e9;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer utilities {
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-slate-100 p-5;
+  }
+
+  .card-sm {
+    @apply bg-white rounded-xl shadow-sm border border-slate-100 p-4;
+  }
+
+  .badge-nwp {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200;
+  }
+
+  .badge-ai {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-violet-50 text-violet-700 border border-violet-200;
+  }
+
+  .badge-illustrative {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200;
+  }
+
+  .section-title {
+    @apply text-xs font-bold uppercase tracking-widest text-slate-400 mb-3;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 text-slate-700 text-sm font-semibold hover:bg-slate-200 transition-colors;
+  }
+}
