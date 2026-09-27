@@ -73,7 +73,7 @@ export default function WeightMap({ selectedDistrict, onDistrictSelect }) {
             <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Spatial Model-Weight Map</h2>
           </div>
           <p className="text-xs text-slate-400 ml-3">
-            Different districts receive different adaptive source weights based on location characteristics.
+            Each of the 6 pilot districts receives different illustrative adaptive source weights based on location characteristics.
           </p>
         </div>
         <span className="badge-illustrative whitespace-nowrap">Illustrative Weights</span>

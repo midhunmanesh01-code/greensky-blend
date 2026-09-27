@@ -107,7 +107,7 @@ function DistrictPanel({ district, date, onClose }) {
       <div className="bg-gradient-to-r from-blue-600 to-green-500 p-4">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-blue-100 text-[10px] font-bold uppercase tracking-widest">District</p>
+            <p className="text-blue-100 text-[10px] font-bold uppercase tracking-widest">Pilot District</p>
             <h3 className="text-white font-bold text-base leading-tight">{district}</h3>
           </div>
           <button
@@ -227,11 +227,11 @@ export default function KeralaMap({ district, date, onDistrictSelect }) {
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="w-1 h-5 rounded-full bg-emerald-500" />
-          <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Kerala Rainfall Map</h2>
+          <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Kerala Pilot — Rainfall Map</h2>
         </div>
         <span className="badge-illustrative">Illustrative Data</span>
       </div>
-      <p className="text-xs text-slate-400 mb-3">Click a district to view detailed forecast breakdown.</p>
+      <p className="text-xs text-slate-400 mb-3">6 pilot districts shown. Click a district to view detailed forecast breakdown.</p>
 
       <div className="relative rounded-xl overflow-hidden border border-slate-200" style={{ height: 400 }}>
         <MapContainer

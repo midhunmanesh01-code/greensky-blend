@@ -53,21 +53,28 @@ export default function Header({ activeNav, onNavChange }) {
           </div>
         </div>
 
-        {/* Mobile nav */}
-        <div className="flex md:hidden gap-1 pb-2 overflow-x-auto">
-          {NAV_ITEMS.map((item) => (
-            <button
-              key={item}
-              onClick={() => onNavChange(item)}
-              className={`whitespace-nowrap px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
-                activeNav === item
-                  ? 'bg-blue-50 text-blue-700'
-                  : 'text-slate-500 hover:bg-slate-50'
-              }`}
-            >
-              {item}
-            </button>
-          ))}
+        {/* Mobile nav — horizontally scrollable with right-fade indicator */}
+        <div className="relative flex md:hidden pb-2">
+          {/* Fade-out gradient to signal horizontal scroll */}
+          <div
+            className="pointer-events-none absolute right-0 top-0 h-full w-8 z-10"
+            style={{ background: 'linear-gradient(to right, transparent, white)' }}
+          />
+          <div className="flex gap-1 overflow-x-auto scrollbar-none pr-8">
+            {NAV_ITEMS.map((item) => (
+              <button
+                key={item}
+                onClick={() => onNavChange(item)}
+                className={`flex-shrink-0 whitespace-nowrap px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
+                  activeNav === item
+                    ? 'bg-blue-50 text-blue-700'
+                    : 'text-slate-500 hover:bg-slate-50'
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </header>

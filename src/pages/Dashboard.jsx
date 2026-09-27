@@ -42,7 +42,7 @@ export default function Dashboard() {
       <div className="rounded-2xl bg-gradient-to-r from-blue-700 via-blue-600 to-green-600 p-6 text-white shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <p className="text-blue-200 text-xs font-bold uppercase tracking-widest mb-1">SIH26081 · Disaster Management · Team NEXA_CHN</p>
+            <p className="text-blue-200 text-xs font-bold uppercase tracking-widest mb-1">SIH26081 · Disaster Management · Team NEXA_CHN · Kerala Pilot — 6 District Demonstration</p>
             <h1 className="text-2xl sm:text-3xl font-extrabold leading-tight">GreenSky Blend</h1>
             <p className="text-blue-100 text-sm mt-1 max-w-xl">
               Hybrid AI–NWP multi-model forecast blending system generating location-specific 24-hour rainfall forecasts for Kerala using adaptive, context-aware source weighting.
@@ -51,7 +51,7 @@ export default function Dashboard() {
           <div className="flex gap-4">
             {[
               { label: 'Sources', value: '3' },
-              { label: 'Districts', value: '6' },
+              { label: 'Pilot Districts', value: '6' },
               { label: 'Lead Time', value: '24h' },
             ].map(({ label, value }) => (
               <div key={label} className="text-center">
@@ -132,6 +132,20 @@ export default function Dashboard() {
 
       {/* Tech stack */}
       <TechStack />
+
+      {/* Validation Status */}
+      <div className="rounded-2xl border border-blue-100 bg-blue-50 p-5">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-1 h-5 rounded-full bg-blue-500" />
+          <h2 className="text-sm font-bold text-blue-800 uppercase tracking-wide">Validation Status</h2>
+          <span className="ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">In Progress</span>
+        </div>
+        <p className="text-xs text-blue-700 font-semibold mb-1">Initial feasibility testing underway</p>
+        <p className="text-xs text-blue-600 leading-relaxed">
+          Historical ECMWF/GFS forecasts are being evaluated against IMD observations using chronological
+          unseen-data testing. Results will be published upon completion. No performance claims are made at this stage.
+        </p>
+      </div>
 
       {/* Footer */}
       <div className="text-center text-xs text-slate-400 py-4 border-t border-slate-200">

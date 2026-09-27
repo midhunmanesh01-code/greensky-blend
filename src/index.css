@@ -49,4 +49,12 @@
   .btn-secondary {
     @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 text-slate-700 text-sm font-semibold hover:bg-slate-200 transition-colors;
   }
+
+  .scrollbar-none {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
 }

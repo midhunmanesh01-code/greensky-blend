@@ -17,7 +17,7 @@ export default function ForecastControls({ district, date, regime, onDistrictCha
         {/* District */}
         <div>
           <label className="flex items-center gap-1.5 text-xs text-slate-500 font-medium mb-1.5">
-            <MapPin className="w-3.5 h-3.5" /> District
+            <MapPin className="w-3.5 h-3.5" /> Pilot District
           </label>
           <select
             value={district}
