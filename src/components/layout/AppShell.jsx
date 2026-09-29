@@ -17,7 +17,7 @@ export default function AppShell({
   children,
 }) {
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-slate-950 text-slate-100 font-sans antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div className="flex h-screen w-screen overflow-hidden bg-slate-950 text-slate-100 font-sans antialiased selection:bg-amber-500/30 selection:text-amber-200">
       {/* Desktop Left Sidebar & Mobile Drawer */}
       <Sidebar activeTab={activeTab} onTabChange={onTabChange} />
 

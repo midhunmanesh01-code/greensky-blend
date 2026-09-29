@@ -23,7 +23,7 @@ export default function ControlBar({
         
         {/* District Selector */}
         <div className="flex items-center gap-1.5 bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-1.5 text-xs shadow-inner">
-          <MapPin size={14} className="text-cyan-400 shrink-0" />
+          <MapPin size={14} className="text-amber-400 shrink-0" />
           <span className="text-slate-400 text-xs font-medium">District:</span>
           <select
             value={district}
@@ -40,7 +40,7 @@ export default function ControlBar({
 
         {/* Date Selector */}
         <div className="flex items-center gap-1.5 bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-1.5 text-xs shadow-inner">
-          <Calendar size={14} className="text-cyan-400 shrink-0" />
+          <Calendar size={14} className="text-amber-400 shrink-0" />
           <span className="text-slate-400 text-xs font-medium">Valid Date:</span>
           <select
             value={date}
@@ -58,7 +58,7 @@ export default function ControlBar({
         {/* Lead Time Badge */}
         <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-slate-300 font-mono">
           <Clock size={13} className="text-slate-400 shrink-0" />
-          <span className="font-semibold text-cyan-300">24h Lead</span>
+          <span className="font-semibold text-amber-400">24h Lead</span>
         </div>
 
         {/* Regime Badge */}
@@ -78,11 +78,11 @@ export default function ControlBar({
         {/* Consensus Blend Pill */}
         <button
           onClick={() => onTabChange('dashboard')}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cyan-950/50 border border-cyan-700/60 hover:bg-cyan-950/80 transition-colors text-xs shrink-0 shadow-sm"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-amber-950/40 border border-amber-700/60 hover:bg-amber-950/70 transition-colors text-xs shrink-0 shadow-sm"
         >
-          <Activity size={14} className="text-cyan-400 shrink-0" />
+          <Activity size={14} className="text-amber-400 shrink-0" />
           <span className="text-slate-300 font-medium">Consensus:</span>
-          <strong className="text-cyan-300 font-mono text-sm">{blendedValue} mm</strong>
+          <strong className="text-amber-400 font-mono text-sm">{blendedValue} mm</strong>
         </button>
 
         {/* Confidence Pill */}

@@ -107,12 +107,12 @@ export default function Sidebar({ activeTab, onTabChange }) {
                     transition-colors duration-100 text-left
                     ${
                       isActive
-                        ? 'bg-cyan-600/15 text-cyan-400 border-l-2 border-cyan-500 font-semibold shadow-sm'
+                        ? 'bg-amber-600/15 text-amber-400 border-l-2 border-amber-500 font-semibold shadow-sm'
                         : 'text-slate-400 hover:bg-slate-800/40 hover:text-slate-200 border-l-2 border-transparent'
                     }
                   `}
                 >
-                  <Icon size={18} className={isActive ? 'text-cyan-400' : 'text-slate-500'} />
+                  <Icon size={18} className={isActive ? 'text-amber-400' : 'text-slate-500'} />
                   <span className="truncate">{item.label}</span>
                 </button>
               );

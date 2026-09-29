@@ -40,7 +40,7 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
     return {
       fillColor,
       weight: isSelected ? 3 : 1.2,
-      color: isSelected ? '#22d3ee' : '#475569',
+      color: isSelected ? '#f59e0b' : '#475569',
       fillOpacity: isSelected ? 0.9 : 0.65,
     };
   };
@@ -51,9 +51,9 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
     const b = data ? calculateBlendedForecast(data.forecasts, data.weights) : '—';
 
     layer.bindTooltip(
-      `<div style="font-family:Inter,system-ui;padding:4px 8px;background:rgba(10,22,40,0.95);border:1px solid rgba(56,189,248,0.3);border-radius:6px;color:#fff;">
+      `<div style="font-family:Inter,system-ui;padding:4px 8px;background:rgba(15,23,42,0.95);border:1px solid rgba(245,158,11,0.4);border-radius:6px;color:#fff;">
         <div style="font-weight:700;font-size:12px;">${d}</div>
-        <div style="font-size:11px;color:#38bdf8;">Blend: <strong>${b} mm</strong></div>
+        <div style="font-size:11px;color:#f59e0b;">Blend: <strong>${b} mm</strong></div>
       </div>`,
       { permanent: false, sticky: true, direction: 'top' }
     );
@@ -69,18 +69,18 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
       
       {/* Left 2 Cols: Interactive Map Container */}
-      <div className="lg:col-span-2 bg-[#0b1528] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-        <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+      <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-col justify-between">
+        <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-slate-800">
           <div>
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+            <h3 className="text-xs font-bold text-slate-100 uppercase tracking-wider flex items-center gap-2">
+              <MapPin className="w-3.5 h-3.5 text-amber-400" />
               Kerala Pilot — Spatial Precipitation Map
             </h3>
-            <p className="text-[11px] text-slate-500 mt-0.5">
-              Interactive 6-district pilot demonstration. Click any district polygon or card to inspect source blend.
+            <p className="text-[11px] text-slate-400 mt-0.5">
+              Interactive 6-district pilot demonstration. Click any district polygon or card to inspect consensus blend.
             </p>
           </div>
-          <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800/50">
+          <span className="text-[10px] font-mono text-amber-400 bg-amber-950/80 px-2.5 py-1 rounded border border-amber-800/60">
             6 Pilot Districts
           </span>
         </div>
@@ -90,7 +90,7 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
           <MapContainer 
             center={[10.2, 76.4]} 
             zoom={7} 
-            style={{ height: '100%', width: '100%', background: '#050a14' }} 
+            style={{ height: '100%', width: '100%', background: '#020617' }} 
             zoomControl={true} 
             attributionControl={false}
           >
@@ -99,7 +99,7 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
           </MapContainer>
 
           {/* Floating Map Legend */}
-          <div className="absolute bottom-3 left-3 z-[1000] bg-[#070e1c]/95 border border-slate-700/80 rounded-lg p-2 text-[10px] backdrop-blur-md shadow-xl">
+          <div className="absolute bottom-3 left-3 z-[1000] bg-slate-950/95 border border-slate-700/80 rounded-lg p-2 text-[10px] backdrop-blur-md shadow-xl">
             <span className="font-bold text-slate-300 block mb-1.5 font-mono">Precipitation (mm):</span>
             <div className="flex items-center gap-1.5 flex-wrap">
               {[
@@ -123,15 +123,15 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
       <div className="space-y-4">
         
         {/* Selected District Telemetry */}
-        <div className="bg-[#0b1528] border border-cyan-500/30 rounded-xl p-4 shadow-lg">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5 shadow-sm">
           <div className="flex items-center justify-between mb-2 pb-2 border-b border-slate-800">
             <div>
-              <p className="text-[10px] font-mono uppercase text-cyan-400 font-bold">Inspected District</p>
+              <p className="text-[10px] font-mono uppercase text-amber-400 font-bold">Inspected District</p>
               <h4 className="text-lg font-bold text-white">{district}</h4>
             </div>
             <div className="text-right">
               <span className="text-[10px] text-slate-500 block font-mono">Consensus Output</span>
-              <span className="text-2xl font-extrabold font-mono text-cyan-300">{blended} mm</span>
+              <span className="text-2xl font-extrabold font-mono text-amber-400">{blended} mm</span>
             </div>
           </div>
 
@@ -143,13 +143,13 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
               { key: 'gfs', label: 'NCEP GFS', color: COLORS.gfs },
               { key: 'aifs', label: 'ECMWF AIFS', color: COLORS.aifs },
             ].map(({ key, label, color }) => (
-              <div key={key} className="bg-slate-900/80 rounded-lg p-2 border border-slate-800">
+              <div key={key} className="bg-slate-950 rounded-lg p-2.5 border border-slate-800">
                 <div className="flex items-center justify-between text-xs mb-1">
                   <span className="text-slate-300 font-medium">{label}</span>
                   <span className="font-mono font-bold text-white">{forecasts[key]} mm</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                  <div className="flex-1 h-1.5 bg-slate-900 rounded-full overflow-hidden">
                     <div className="h-full rounded-full" style={{ width: `${pct[key]}%`, background: color }} />
                   </div>
                   <span className="text-[10px] font-mono font-bold w-9 text-right" style={{ color }}>{pct[key]}%</span>
@@ -164,9 +164,9 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
           </div>
         </div>
 
-        {/* 6 Pilot Districts Quick Switcher */}
-        <div className="bg-[#0b1528] border border-slate-800 rounded-xl p-4">
-          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+        {/* 6 Pilot Districts Quick Switcher (ls-monitor style) */}
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5">
+          <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
             <Layers className="w-3.5 h-3.5 text-slate-400" />
             Switch Pilot District
           </h4>
@@ -181,17 +181,17 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
                 <button
                   key={d}
                   onClick={() => onDistrictSelect(d)}
-                  className={`p-2 rounded-lg text-left transition-all text-xs border flex flex-col justify-between ${
+                  className={`p-2.5 rounded-lg text-left transition-all text-xs border flex flex-col justify-between ${
                     isCurrent
-                      ? 'bg-cyan-950/80 border-cyan-500/50 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.1)]'
-                      : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900'
+                      ? 'bg-amber-600 text-slate-950 border-amber-500 shadow-md font-bold'
+                      : 'bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700 hover:bg-slate-800/60'
                   }`}
                 >
                   <div className="flex items-center justify-between w-full">
-                    <span className="font-semibold truncate">{d}</span>
-                    {isCurrent && <CheckCircle2 className="w-3 h-3 text-cyan-400 flex-shrink-0" />}
+                    <span className="truncate">{d}</span>
+                    {isCurrent && <CheckCircle2 className="w-3.5 h-3.5 text-slate-950 flex-shrink-0" />}
                   </div>
-                  <span className="text-[11px] font-mono font-bold mt-1 text-slate-400">
+                  <span className={`text-[11px] font-mono font-bold mt-1 ${isCurrent ? 'text-slate-950' : 'text-slate-400'}`}>
                     {dBlended} mm
                   </span>
                 </button>

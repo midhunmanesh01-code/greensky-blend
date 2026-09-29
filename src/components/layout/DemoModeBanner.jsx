@@ -5,7 +5,7 @@ export default function DemoModeBanner() {
   return (
     <div className="flex items-center justify-between px-4 py-2 bg-slate-950 border-b border-slate-800 text-xs shrink-0">
       <div className="flex items-center gap-2.5 min-w-0">
-        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shrink-0" />
+        <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
         <span className="font-bold text-slate-100 text-xs tracking-wider uppercase truncate">
           GreenSky Operational Command
         </span>

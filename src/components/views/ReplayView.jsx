@@ -18,10 +18,10 @@ const REPLAY_STEPS = [
 function CustomTooltip({ active, payload, label }) {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#0a1628] border border-cyan-500/30 rounded-lg p-2.5 text-xs shadow-xl">
-        <p className="font-bold text-slate-300 mb-1.5">{label}</p>
+      <div className="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs shadow-xl">
+        <p className="font-bold text-slate-200 mb-1.5">{label}</p>
         {payload.map((p) => (
-          <div key={p.dataKey} className="flex items-center gap-2">
+          <div key={p.dataKey} className="flex items-center gap-2 my-0.5">
             <div className="w-2 h-2 rounded-full" style={{ background: p.color }} />
             <span className="text-slate-400">{p.name}:</span>
             <span className="font-mono font-bold text-white">{p.value} mm</span>
@@ -67,13 +67,13 @@ export default function ReplayView({ district }) {
     <div className="space-y-4">
       
       {/* Top Header Strip with Controls */}
-      <div className="bg-[#0b1528] border border-slate-800 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3 shadow-sm">
         <div>
-          <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-            <Activity className="w-3.5 h-3.5 text-cyan-400" />
+          <h3 className="text-xs font-bold text-slate-100 uppercase tracking-wider flex items-center gap-2">
+            <Activity className="w-3.5 h-3.5 text-amber-400" />
             24-Hour Historical Forecast Replay — {district}
           </h3>
-          <p className="text-[11px] text-slate-500 mt-0.5">
+          <p className="text-[11px] text-slate-400 mt-0.5">
             Step through the GreenSky multi-model pipeline and inspect 7-day chronological performance
           </p>
         </div>
@@ -91,10 +91,10 @@ export default function ReplayView({ district }) {
           <button
             onClick={runReplay}
             disabled={playing}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold transition-all shadow-md ${
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-md ${
               playing
-                ? 'bg-cyan-900/60 text-cyan-400 cursor-not-allowed border border-cyan-800'
-                : 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(34,211,238,0.25)]'
+                ? 'bg-amber-950/60 text-amber-400 cursor-not-allowed border border-amber-800'
+                : 'bg-amber-600 hover:bg-amber-500 text-slate-950 border border-amber-500'
             }`}
           >
             <Play className="w-3.5 h-3.5 fill-current" />
@@ -104,7 +104,7 @@ export default function ReplayView({ district }) {
       </div>
 
       {/* 7-Step Animated Progress Timeline */}
-      <div className="bg-[#0b1528] border border-slate-800 rounded-xl p-4">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5">
         <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block mb-2.5">
           Multi-Model Execution Pipeline
         </span>
@@ -117,17 +117,17 @@ export default function ReplayView({ district }) {
             return (
               <div
                 key={step.id}
-                className={`p-2 rounded-lg border text-xs transition-all duration-300 ${
+                className={`p-2.5 rounded-lg border text-xs transition-all duration-300 ${
                   isDone
-                    ? 'bg-cyan-950/80 border-cyan-500/50 text-cyan-300'
+                    ? 'bg-amber-950/40 border-amber-600/50 text-amber-300'
                     : isCurrent
-                    ? 'bg-cyan-500/20 border-cyan-400 text-white animate-pulse'
-                    : 'bg-slate-900/60 border-slate-800 text-slate-500'
+                    ? 'bg-amber-500/20 border-amber-400 text-white animate-pulse'
+                    : 'bg-slate-950 border-slate-800 text-slate-500'
                 }`}
               >
                 <div className="flex items-center gap-1.5 mb-1">
                   <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-mono font-bold ${
-                    isDone ? 'bg-cyan-500 text-slate-950' : 'bg-slate-800 text-slate-400'
+                    isDone ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-400'
                   }`}>
                     {step.id}
                   </span>
@@ -139,23 +139,23 @@ export default function ReplayView({ district }) {
         </div>
 
         {currentStep > 0 && currentStep <= REPLAY_STEPS.length && (
-          <p className="text-xs text-cyan-400 font-mono mt-2 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+          <p className="text-xs text-amber-400 font-mono mt-2.5 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
             <span>Active Stage: {REPLAY_STEPS[currentStep - 1]?.desc}</span>
           </p>
         )}
       </div>
 
       {/* 7-Day Timeseries Recharts Multi-Line Comparison */}
-      <div className="bg-[#0b1528] border border-slate-800 rounded-xl p-4">
-        <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5">
+        <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-slate-800">
           <div className="flex items-center gap-2">
-            <Calendar className="w-3.5 h-3.5 text-cyan-400" />
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">
+            <Calendar className="w-3.5 h-3.5 text-amber-400" />
+            <h4 className="text-xs font-bold text-slate-100 uppercase tracking-wider">
               7-Day Precipitation Timeline — ECMWF IFS vs NCEP GFS vs ECMWF AIFS vs GreenSky
             </h4>
           </div>
-          <span className="text-[10px] font-mono text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+          <span className="text-[10px] font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded border border-slate-800">
             {district}
           </span>
         </div>
@@ -163,15 +163,15 @@ export default function ReplayView({ district }) {
         <div className="h-[280px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#14243b" />
-              <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#64748b' }} axisLine={{ stroke: '#1e293b' }} />
-              <YAxis tick={{ fontSize: 11, fill: '#64748b' }} axisLine={{ stroke: '#1e293b' }} unit=" mm" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+              <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#64748b' }} axisLine={{ stroke: '#334155' }} />
+              <YAxis tick={{ fontSize: 11, fill: '#64748b' }} axisLine={{ stroke: '#334155' }} unit=" mm" />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8', paddingTop: '8px' }} />
               <Line type="monotone" dataKey="ifs" name="ECMWF IFS (NWP)" stroke="#38bdf8" strokeWidth={1.5} dot={{ r: 3, fill: '#38bdf8' }} strokeDasharray="4 2" />
               <Line type="monotone" dataKey="gfs" name="NCEP GFS (NWP)" stroke="#34d399" strokeWidth={1.5} dot={{ r: 3, fill: '#34d399' }} strokeDasharray="4 2" />
               <Line type="monotone" dataKey="aifs" name="ECMWF AIFS (AI)" stroke="#a78bfa" strokeWidth={1.5} dot={{ r: 3, fill: '#a78bfa' }} strokeDasharray="4 2" />
-              <Line type="monotone" dataKey="blend" name="GreenSky Consensus Blend" stroke="#22d3ee" strokeWidth={2.5} dot={{ r: 4, fill: '#22d3ee' }} />
+              <Line type="monotone" dataKey="blend" name="GreenSky Consensus Blend" stroke="#f59e0b" strokeWidth={2.5} dot={{ r: 4, fill: '#f59e0b' }} />
             </LineChart>
           </ResponsiveContainer>
         </div>

@@ -13,12 +13,12 @@ export default function ExtremeRainView() {
     <div className="space-y-4">
       
       {/* Overview Banner */}
-      <div className="bg-[#0b1528] border border-rose-500/30 rounded-xl p-4 flex items-start gap-3">
-        <div className="p-2 rounded-lg bg-rose-500/10 border border-rose-500/30 mt-0.5">
+      <div className="bg-slate-900 border border-rose-800/40 rounded-xl p-4 sm:p-5 flex items-start gap-3 shadow-sm">
+        <div className="p-2 rounded-lg bg-rose-500/10 border border-rose-500/30 mt-0.5 shrink-0">
           <AlertTriangle className="w-5 h-5 text-rose-400" />
         </div>
         <div>
-          <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+          <h3 className="text-xs font-bold text-slate-100 uppercase tracking-wider">
             High-Impact Weather & Extreme Rainfall Evaluation
           </h3>
           <p className="text-xs text-slate-400 mt-1 leading-relaxed">
@@ -31,9 +31,9 @@ export default function ExtremeRainView() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         
         {/* 2x2 Contingency Matrix */}
-        <div className="bg-[#0b1528] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-col justify-between shadow-sm">
+          <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-slate-800">
+            <h4 className="text-xs font-bold text-slate-100 uppercase tracking-wider">
               Categorical 2×2 Contingency Matrix
             </h4>
             <span className="text-[10px] font-mono text-rose-400 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-800/50">
@@ -83,7 +83,7 @@ export default function ExtremeRainView() {
             </div>
 
             {/* Correct Negative */}
-            <div className="bg-slate-900/60 border border-slate-800 rounded-lg p-3.5 flex flex-col justify-between">
+            <div className="bg-slate-950 border border-slate-800 rounded-lg p-3.5 flex flex-col justify-between">
               <div className="flex items-center justify-between text-xs mb-1">
                 <span className="font-bold text-slate-400">Correct Rejections (D)</span>
                 <CheckCircle2 className="w-4 h-4 text-slate-500" />
@@ -99,20 +99,20 @@ export default function ExtremeRainView() {
         </div>
 
         {/* Skill Score Metric Cards */}
-        <div className="bg-[#0b1528] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-col justify-between shadow-sm">
+          <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-slate-800">
+            <h4 className="text-xs font-bold text-slate-100 uppercase tracking-wider">
               Categorical Verification Metrics
             </h4>
-            <span className="text-[10px] font-mono text-slate-400">WMO Standard</span>
+            <span className="text-[10px] font-mono text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">WMO Standard</span>
           </div>
 
           <div className="space-y-2.5">
             {THRESHOLD_METRICS.map((item) => (
-              <div key={item.key} className="bg-slate-900/80 border border-slate-800 rounded-lg p-2.5">
+              <div key={item.key} className="bg-slate-950 border border-slate-800 rounded-lg p-2.5">
                 <div className="flex items-center justify-between text-xs mb-0.5">
                   <span className="font-bold text-white">{item.key} · {item.label}</span>
-                  <span className="text-[10px] font-mono text-cyan-400 bg-slate-950 px-1.5 py-0.5 rounded">{item.formula}</span>
+                  <span className="text-[10px] font-mono text-amber-400 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">{item.formula}</span>
                 </div>
                 <p className="text-[11px] text-slate-400 leading-tight">{item.desc}</p>
               </div>

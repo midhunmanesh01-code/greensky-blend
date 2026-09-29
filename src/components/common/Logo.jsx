@@ -47,7 +47,7 @@ export default function Logo({ size = 'md', showText = true, className = '' }) {
             height="92"
             rx="22"
             fill={`url(#bg_${uid})`}
-            stroke="#0ea5e9"
+            stroke="#f59e0b"
             strokeWidth="2.5"
             strokeOpacity="0.4"
           />
@@ -72,8 +72,8 @@ export default function Logo({ size = 'md', showText = true, className = '' }) {
           <line x1="66" y1="74" x2="60" y2="84" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" />
 
           {/* AI Consensus Pulse Signal */}
-          <circle cx="56" cy="32" r="4.5" fill="#22d3ee" />
-          <circle cx="56" cy="32" r="8.5" stroke="#22d3ee" strokeWidth="1.5" strokeOpacity="0.75" />
+          <circle cx="56" cy="32" r="4.5" fill="#f59e0b" />
+          <circle cx="56" cy="32" r="8.5" stroke="#f59e0b" strokeWidth="1.5" strokeOpacity="0.75" />
         </svg>
       </div>
 
@@ -83,7 +83,7 @@ export default function Logo({ size = 'md', showText = true, className = '' }) {
           <div className={`${s.text} font-bold text-slate-100 tracking-wide leading-tight truncate`}>
             GreenSky Blend
           </div>
-          <div className={`${s.sub} font-semibold text-cyan-400 uppercase tracking-widest font-mono truncate`}>
+          <div className={`${s.sub} font-semibold text-amber-400 uppercase tracking-widest font-mono truncate`}>
             Kerala Pilot · 24H
           </div>
         </div>

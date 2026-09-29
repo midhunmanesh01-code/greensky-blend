@@ -35,15 +35,15 @@ export default function BottomNav({ activeTab, onTabChange }) {
                 flex flex-col items-center justify-center flex-1 h-full py-1 px-0.5 relative transition-colors
                 ${
                   isActive
-                    ? 'text-cyan-400 font-bold'
+                    ? 'text-amber-400 font-bold'
                     : 'text-slate-400 hover:text-slate-200'
                 }
               `}
             >
               {isActive && (
-                <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-cyan-500 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+                <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-amber-500 rounded-full shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
               )}
-              <Icon size={18} className={`mb-0.5 ${isActive ? 'text-cyan-400 stroke-[2.5]' : 'text-slate-400'}`} />
+              <Icon size={18} className={`mb-0.5 ${isActive ? 'text-amber-400 stroke-[2.5]' : 'text-slate-400'}`} />
               <span className="text-[10px] tracking-tight leading-tight truncate max-w-[54px]">
                 {item.label}
               </span>
