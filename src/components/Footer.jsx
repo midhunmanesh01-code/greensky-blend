@@ -71,7 +71,7 @@ export default function Footer() {
                 SIH26081
               </span>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/60 border border-cyan-800/40 text-cyan-300">
-                Kerala Pilot · 6-District Demo
+                Kerala Pilot · 6-District Demonstration
               </span>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/40 text-emerald-300">
                 24-Hour Rainfall Lead

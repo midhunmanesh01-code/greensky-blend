@@ -11,17 +11,23 @@ import MethodologyView from './components/views/MethodologyView';
 import ImpactView from './components/views/ImpactView';
 import ReferencesView from './components/views/ReferencesView';
 
-import { FORECAST_DATA } from './data/demoData';
+import { FORECAST_DATA, DATES, DISTRICTS } from './data/demoData';
 import { calculateBlendedForecast } from './utils/calculations';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [district, setDistrict] = useState('Pathanamthitta');
-  const [date, setDate] = useState('2026-07-01');
+  const [district, setDistrict] = useState(DISTRICTS[0] || 'Pathanamthitta');
+  const [date, setDate] = useState(DATES[0] || '2025-08-28');
 
-  // Active district & date forecast data
-  const currentData = FORECAST_DATA[district]?.[date] || FORECAST_DATA['Pathanamthitta']['2026-07-01'];
+  // Active district & date forecast data with resilient fallback
+  const districtData = FORECAST_DATA[district] || Object.values(FORECAST_DATA)[0] || {};
+  const currentData = districtData[date] || Object.values(districtData)[0] || {
+    forecasts: { ifs: 0, gfs: 0, aifs: 0 },
+    weights: { ifs: 0.5, gfs: 0.5, aifs: 0 },
+    confidence: 0.8,
+    regime: 'Moderate (15-35 mm)',
+  };
   const blendedValue = calculateBlendedForecast(currentData.forecasts, currentData.weights);
 
   if (loading) {

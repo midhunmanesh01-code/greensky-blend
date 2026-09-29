@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio } from 'lucide-react';
+import { ShieldCheck, Activity } from 'lucide-react';
 
 export default function DemoModeBanner() {
   return (
@@ -11,15 +11,15 @@ export default function DemoModeBanner() {
         </span>
         <span className="text-slate-600 hidden md:inline">•</span>
         <span className="text-slate-400 font-mono text-[11px] hidden md:inline truncate">
-          SIH26081 &bull; Adaptive Multi-Model Rainfall Blending &bull; Kerala Pilot
+          SIH26081 &bull; Historical Benchmark Grid (10.75°N, 76.25°E) &bull; Kerala 6-District Pilot &bull; Convention B (03:00 UTC)
         </span>
       </div>
 
       <div className="flex items-center gap-3 font-mono text-[11px] shrink-0 pl-2">
         <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-950/40 border border-emerald-800/40 text-emerald-400">
-          <Radio size={12} className="text-emerald-400 animate-pulse shrink-0" />
-          <span className="font-semibold text-[10px] sm:text-[11px] hidden xs:inline">LIVE FEEDS CONNECTED</span>
-          <span className="font-semibold text-[10px] xs:hidden">LIVE</span>
+          <ShieldCheck size={12} className="text-emerald-400 shrink-0" />
+          <span className="font-semibold text-[10px] sm:text-[11px] hidden xs:inline">BENCHMARK DATA CONNECTED</span>
+          <span className="font-semibold text-[10px] xs:hidden">CONNECTED</span>
         </div>
       </div>
     </div>

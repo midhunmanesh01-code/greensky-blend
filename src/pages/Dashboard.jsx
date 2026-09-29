@@ -11,14 +11,20 @@ import ForecastReplay from '../components/ForecastReplay';
 import ValidationPanel from '../components/ValidationPanel';
 import Architecture from '../components/Architecture';
 import TechStack from '../components/TechStack';
-import { FORECAST_DATA } from '../data/demoData';
+import { FORECAST_DATA, DISTRICTS, DATES } from '../data/demoData';
 import { formatDateLabel } from '../utils/calculations';
 
 export default function Dashboard() {
-  const [district, setDistrict] = useState('Pathanamthitta');
-  const [date, setDate] = useState('2026-07-01');
+  const [district, setDistrict] = useState(DISTRICTS[0] || 'Pathanamthitta');
+  const [date, setDate] = useState(DATES[0] || '2025-08-28');
 
-  const data = FORECAST_DATA[district]?.[date] || FORECAST_DATA['Pathanamthitta']['2026-07-01'];
+  const districtData = FORECAST_DATA[district] || Object.values(FORECAST_DATA)[0] || {};
+  const data = districtData[date] || Object.values(districtData)[0] || {
+    forecasts: { ifs: 0, gfs: 0, aifs: 0 },
+    weights: { ifs: 0.5, gfs: 0.5, aifs: 0 },
+    confidence: 0.8,
+    regime: 'Moderate (15-35 mm)',
+  };
   const { forecasts, weights, confidence, regime } = data;
 
   const [activeRegime, setActiveRegime] = useState(regime);
@@ -26,13 +32,15 @@ export default function Dashboard() {
   // When district or date changes, sync regime from data
   const handleDistrictChange = (d) => {
     setDistrict(d);
-    const newData = FORECAST_DATA[d]?.[date];
+    const dData = FORECAST_DATA[d] || {};
+    const newData = dData[date] || Object.values(dData)[0];
     if (newData) setActiveRegime(newData.regime);
   };
 
   const handleDateChange = (d) => {
     setDate(d);
-    const newData = FORECAST_DATA[district]?.[d];
+    const dData = FORECAST_DATA[district] || {};
+    const newData = dData[d] || Object.values(dData)[0];
     if (newData) setActiveRegime(newData.regime);
   };
 

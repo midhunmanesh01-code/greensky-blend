@@ -70,13 +70,13 @@ export default function WeightMap({ selectedDistrict, onDistrictSelect }) {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <div className="w-1 h-5 rounded-full bg-violet-500" />
-            <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Spatial Model-Weight Map</h2>
+            <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Regional Orographic Profiles — Kerala 6-District Pilot</h2>
           </div>
           <p className="text-xs text-slate-400 ml-3">
-            Each of the 6 pilot districts receives different illustrative adaptive source weights based on location characteristics.
+            Regional demonstration profiles across the 6 pilot districts. Numerical ML weights are regime-conditioned from the central benchmark dataset.
           </p>
         </div>
-        <span className="badge-illustrative whitespace-nowrap">Illustrative Weights</span>
+        <span className="badge-illustrative whitespace-nowrap">Regional Context</span>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -94,7 +94,7 @@ export default function WeightMap({ selectedDistrict, onDistrictSelect }) {
       {/* Legend */}
       <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-6 flex-wrap">
         <p className="text-xs text-slate-400 italic">
-          Illustrative model-weight visualization. These spatial weights are not experimentally validated.
+          Regional orographic profile demonstration. Numerical ML weights are evaluated on the central Benchmark Grid (10.75°N, 76.25°E).
         </p>
         <div className="flex items-center gap-3 ml-auto">
           {[

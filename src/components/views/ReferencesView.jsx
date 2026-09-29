@@ -1,20 +1,25 @@
 import React from 'react';
-import { Database, Layers, BookOpen, Award, ExternalLink } from 'lucide-react';
+import { Database, Layers, BookOpen, Award, ExternalLink, GitBranch } from 'lucide-react';
 
 const REFERENCE_GROUPS = [
   {
-    category: 'Forecast Data Sources',
-    icon: Database,
+    category: 'Benchmark & Authoritative Repositories',
+    icon: GitBranch,
     accent: '#38bdf8',
     items: [
       {
+        name: 'greensky-benchmark (Source of Truth)',
+        detail: 'Official quantitative benchmarking and machine-learning blending framework for daily precipitation forecasting in India.',
+        ref: 'https://github.com/midhunmanesh01-code/greensky-benchmark',
+      },
+      {
         name: 'ECMWF IFS (Integrated Forecasting System)',
-        detail: 'Global high-resolution numerical weather prediction model (9km resolution).',
+        detail: 'Global high-resolution numerical weather prediction model (9km native resolution).',
         ref: 'European Centre for Medium-Range Weather Forecasts (ECMWF)',
       },
       {
-        name: 'NCEP GFS (Global Forecast System)',
-        detail: 'Operational global numerical weather prediction model (13km resolution).',
+        name: 'NOAA NCEP GFS (Global Forecast System)',
+        detail: 'Operational global numerical weather prediction model (13km native resolution).',
         ref: 'National Centers for Environmental Prediction (NOAA)',
       },
       {
@@ -40,9 +45,9 @@ const REFERENCE_GROUPS = [
         ref: 'India Meteorological Department (IMD), MoES',
       },
       {
-        name: 'KSDMA Incident & Rainfall Catalogs',
-        detail: 'Disaster management historical event catalogs and localized precipitation assessments.',
-        ref: 'Kerala State Disaster Management Authority',
+        name: 'Convention B Alignment Specification',
+        detail: '24-hour accumulation window ((D-1) 03:00 UTC → D 03:00 UTC) matching official 08:30 IST gauge read.',
+        ref: 'IMD Standard Observation Protocol',
       },
     ],
   },
@@ -52,9 +57,9 @@ const REFERENCE_GROUPS = [
     accent: '#a78bfa',
     items: [
       {
-        name: 'Gradient Boosted Decision Trees',
-        detail: 'XGBoost & LightGBM implementations for nonlinear context-aware regression of model weights.',
-        ref: 'Chen, T., & Guestrin, C. (2016) · KDD \'16, 785-794',
+        name: 'Regime-Conditioned Adaptive Blending',
+        detail: 'Convex weight optimization minimizing daily error conditioned on precipitation regimes.',
+        ref: 'GreenSky Benchmark Experiment 1 Protocol',
       },
       {
         name: 'Multi-Model Superensemble Forecasting',

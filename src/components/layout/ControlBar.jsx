@@ -21,10 +21,10 @@ export default function ControlBar({
       {/* Left: Operational Selectors */}
       <div className="flex flex-wrap items-center gap-2.5">
         
-        {/* District Selector */}
+        {/* District Context Selector */}
         <div className="flex items-center gap-1.5 bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-1.5 text-xs shadow-inner">
           <MapPin size={14} className="text-amber-400 shrink-0" />
-          <span className="text-slate-400 text-xs font-medium">District:</span>
+          <span className="text-slate-400 text-xs font-medium">District Context:</span>
           <select
             value={district}
             onChange={(e) => onDistrictChange(e.target.value)}
@@ -36,6 +36,12 @@ export default function ControlBar({
               </option>
             ))}
           </select>
+        </div>
+
+        {/* Benchmark Grid Location Badge */}
+        <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-slate-400 font-mono" title="Empirical IMD ground-truth grid cell for numerical validation">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+          <span>Benchmark Grid: <strong className="text-slate-200 font-bold">10.75°N, 76.25°E</strong></span>
         </div>
 
         {/* Date Selector */}

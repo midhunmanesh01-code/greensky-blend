@@ -4,13 +4,13 @@ import { Play, RotateCcw } from 'lucide-react';
 import { REPLAY_DATA } from '../data/demoData';
 
 const REPLAY_STEPS = [
-  { id: 1, label: 'Ingesting forecast sources', desc: 'Loading ECMWF IFS, NCEP GFS, ECMWF AIFS outputs...' },
-  { id: 2, label: 'Data alignment & quality checks', desc: 'Regridding to common resolution, QC filtering...' },
-  { id: 3, label: 'Detecting weather regime', desc: 'Context features extracted — regime identified...' },
-  { id: 4, label: 'Computing adaptive weights', desc: 'Meta-model generating location/regime-specific weights...' },
-  { id: 5, label: 'Applying blended forecast', desc: 'Weighted sum computed — GreenSky blend produced...' },
-  { id: 6, label: 'Estimating confidence', desc: 'Source agreement and reliability score calculated...' },
-  { id: 7, label: 'Rendering visualization', desc: 'Spatial rainfall map and time series updated.' },
+  { id: 1, label: 'Ingesting NWP grids', desc: 'Loading ECMWF IFS and NOAA NCEP GFS numerical predictions...' },
+  { id: 2, label: 'Temporal alignment (03:00 UTC)', desc: 'Aligning 24-hour accumulation window to match IMD 08:30 IST gauge read (Convention B)...' },
+  { id: 3, label: 'Intensity regime classification', desc: 'Classifying daily mean forecast into Dry, Light, Moderate, or Heavy regime...' },
+  { id: 4, label: 'Applying learned convex weights', desc: 'Applying training-optimized weights w_ECMWF and (1 - w_ECMWF)...' },
+  { id: 5, label: 'Synthesizing adaptive forecast', desc: 'Weighted sum computed — GreenSky consensus rainfall output generated...' },
+  { id: 6, label: 'Ground-truth verification', desc: 'Evaluating residual discrepancy against IMD ground truth observations...' },
+  { id: 7, label: 'Telemetry dispatch', desc: 'Spatial rainfall grid and time series updated for decision support.' },
 ];
 
 function CustomTooltip({ active, payload, label }) {
@@ -19,7 +19,7 @@ function CustomTooltip({ active, payload, label }) {
       <div style={{ background: 'rgba(10,22,40,0.95)', border: '1px solid rgba(56,189,248,0.2)', borderRadius: 10, padding: '10px 14px', backdropFilter: 'blur(12px)' }}>
         <p className="text-xs font-bold text-slate-400 mb-2">{label}</p>
         {payload.map(p => (
-          <div key={p.dataKey} className="flex items-center gap-2 text-xs">
+          <div key={p.dataKey} className="flex items-center gap-2 text-xs font-mono">
             <div className="w-2 h-2 rounded-full" style={{ background: p.color }} />
             <span className="text-slate-400">{p.name}:</span>
             <span className="font-bold text-white">{p.value} mm</span>
@@ -62,7 +62,7 @@ export default function ForecastReplay({ district }) {
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <div className="w-1 h-5 rounded-full bg-cyan-400" />
-          <h2 className="text-sm font-bold text-white uppercase tracking-wide">24-Hour Forecast Replay</h2>
+          <h2 className="text-sm font-bold text-white uppercase tracking-wide">Historical Benchmark Forecast Replay (Aug 04–31, 2025)</h2>
         </div>
         <div className="flex items-center gap-2">
           {completed && (
@@ -73,7 +73,7 @@ export default function ForecastReplay({ district }) {
           <button onClick={runReplay} disabled={playing}
             className={`btn-primary py-1.5 px-3 text-xs ${playing ? 'opacity-60 cursor-not-allowed' : ''}`}>
             <Play className="w-3 h-3" />
-            {playing ? 'Running...' : 'Run Replay'}
+            {playing ? 'Executing...' : 'Run Pipeline Replay'}
           </button>
         </div>
       </div>
@@ -99,7 +99,7 @@ export default function ForecastReplay({ district }) {
             ))}
           </div>
           {currentStep > 0 && currentStep <= REPLAY_STEPS.length && (
-            <p className="text-xs text-slate-500 italic">↳ {REPLAY_STEPS[currentStep - 1]?.desc}</p>
+            <p className="text-xs text-slate-400 italic font-mono">↳ Active Step: {REPLAY_STEPS[currentStep - 1]?.desc}</p>
           )}
         </div>
       )}
@@ -107,15 +107,15 @@ export default function ForecastReplay({ district }) {
       <ResponsiveContainer width="100%" height={280}>
         <LineChart data={data} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(56,189,248,0.06)" />
-          <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#64748b' }} axisLine={{ stroke: 'rgba(56,189,248,0.1)' }} />
-          <YAxis tick={{ fontSize: 11, fill: '#64748b' }} axisLine={{ stroke: 'rgba(56,189,248,0.1)' }}
+          <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#64748b' }} axisLine={{ stroke: 'rgba(56,189,248,0.1)' }} />
+          <YAxis tick={{ fontSize: 10, fill: '#64748b' }} axisLine={{ stroke: 'rgba(56,189,248,0.1)' }}
             label={{ value: 'Rainfall (mm)', angle: -90, position: 'insideLeft', fontSize: 10, fill: '#64748b', dy: 50 }} />
           <Tooltip content={<CustomTooltip />} />
           <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
-          <Line type="monotone" dataKey="ifs" name="ECMWF IFS" stroke="#38bdf8" strokeWidth={1.5} dot={{ r: 3, fill: '#38bdf8' }} strokeDasharray="4 2" />
-          <Line type="monotone" dataKey="gfs" name="NCEP GFS" stroke="#34d399" strokeWidth={1.5} dot={{ r: 3, fill: '#34d399' }} strokeDasharray="4 2" />
-          <Line type="monotone" dataKey="aifs" name="ECMWF AIFS" stroke="#a78bfa" strokeWidth={1.5} dot={{ r: 3, fill: '#a78bfa' }} strokeDasharray="4 2" />
-          <Line type="monotone" dataKey="blend" name="GreenSky Blend" stroke="#22d3ee" strokeWidth={2.5} dot={{ r: 4, fill: '#22d3ee' }} />
+          <Line type="monotone" dataKey="ifs" name="ECMWF IFS (NWP)" stroke="#38bdf8" strokeWidth={1.5} dot={{ r: 2.5, fill: '#38bdf8' }} strokeDasharray="4 2" />
+          <Line type="monotone" dataKey="gfs" name="NCEP GFS (NWP)" stroke="#34d399" strokeWidth={1.5} dot={{ r: 2.5, fill: '#34d399' }} strokeDasharray="4 2" />
+          <Line type="monotone" dataKey="blend" name="GreenSky Adaptive Blend" stroke="#f59e0b" strokeWidth={2.5} dot={{ r: 3.5, fill: '#f59e0b' }} />
+          <Line type="monotone" dataKey="imd_rain" name="IMD Ground Truth" stroke="#a78bfa" strokeWidth={2} dot={{ r: 3.5, fill: '#a78bfa' }} />
         </LineChart>
       </ResponsiveContainer>
     </div>

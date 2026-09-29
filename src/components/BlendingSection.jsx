@@ -48,10 +48,15 @@ function DonutTooltip({ active, payload }) {
 }
 
 export default function BlendingSection() {
-  const [district, setDistrict] = useState('Pathanamthitta');
-  const [date, setDate] = useState('2026-07-01');
+  const [district, setDistrict] = useState(DISTRICTS[0] || 'Pathanamthitta');
+  const [date, setDate] = useState(DATES[0] || '2025-08-28');
 
-  const data = FORECAST_DATA[district]?.[date] || FORECAST_DATA['Pathanamthitta']['2026-07-01'];
+  const districtData = FORECAST_DATA[district] || Object.values(FORECAST_DATA)[0] || {};
+  const data = districtData[date] || Object.values(districtData)[0] || {
+    forecasts: { ifs: 0, gfs: 0, aifs: 0 },
+    weights: { ifs: 0.5, gfs: 0.5, aifs: 0 },
+    regime: 'Moderate (15-35 mm)',
+  };
   const { forecasts, weights } = data;
 
   const blended = calculateBlendedForecast(forecasts, weights);
@@ -256,9 +261,9 @@ export default function BlendingSection() {
           <div className="mb-6">
             <h3 className="text-xl font-bold text-white flex items-center gap-2">
               <Layers className="w-5 h-5 text-cyan-400" />
-              Regional Weight Distribution
+              Regional Orographic Profiles — Kerala 6-District Pilot
             </h3>
-            <p className="text-sm text-slate-500 mt-1">Each of the 6 pilot districts receives different adaptive source weights based on location characteristics.</p>
+            <p className="text-sm text-slate-400 mt-1">Demonstration of regional orographic profiles across the 6 pilot districts. Numerical ML weights are conditioned on rainfall regimes at the central benchmark grid.</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -41,10 +41,16 @@ function ChartTooltip({ active, payload, label }) {
 }
 
 export default function ForecastSection() {
-  const [district, setDistrict] = useState('Pathanamthitta');
-  const [date, setDate] = useState('2026-07-01');
+  const [district, setDistrict] = useState(DISTRICTS[0] || 'Pathanamthitta');
+  const [date, setDate] = useState(DATES[0] || '2025-08-28');
 
-  const data = FORECAST_DATA[district]?.[date] || FORECAST_DATA['Pathanamthitta']['2026-07-01'];
+  const districtData = FORECAST_DATA[district] || Object.values(FORECAST_DATA)[0] || {};
+  const data = districtData[date] || Object.values(districtData)[0] || {
+    forecasts: { ifs: 0, gfs: 0, aifs: 0 },
+    weights: { ifs: 0.5, gfs: 0.5, aifs: 0 },
+    confidence: 0.8,
+    regime: 'Moderate (15-35 mm)',
+  };
   const { forecasts, weights, confidence, regime } = data;
   const blended = calculateBlendedForecast(forecasts, weights);
   const equalWeight = calculateEqualWeightForecast(forecasts);

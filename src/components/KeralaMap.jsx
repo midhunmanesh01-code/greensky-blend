@@ -21,7 +21,8 @@ const COLORS = { ifs: '#38bdf8', gfs: '#34d399', aifs: '#a78bfa' };
 
 function DistrictPanel({ district, date, onClose }) {
   if (!district) return null;
-  const data = FORECAST_DATA[district]?.[date];
+  const distData = FORECAST_DATA[district] || {};
+  const data = distData[date] || Object.values(distData)[0];
   if (!data) return null;
 
   const { forecasts, weights, confidence } = data;
@@ -90,7 +91,10 @@ function DistrictPanel({ district, date, onClose }) {
 export default function KeralaMap({ district, date, onDistrictSelect }) {
   const [selectedFeature, setSelectedFeature] = useState(null);
 
-  const getDistrictData = (d) => FORECAST_DATA[d]?.[date];
+  const getDistrictData = (d) => {
+    const distData = FORECAST_DATA[d] || {};
+    return distData[date] || Object.values(distData)[0];
+  };
 
   const styleFeature = (feature) => {
     const d = feature.properties.district;

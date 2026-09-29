@@ -25,10 +25,10 @@ export default function LoadingScreen({ onFinish }) {
           }, 350);
           return 100;
         }
-        const next = prev + Math.floor(Math.random() * 20) + 14;
+        const next = prev + 22;
         return next > 100 ? 100 : next;
       });
-    }, 150);
+    }, 120);
 
     return () => clearInterval(timer);
   }, [onFinish]);
