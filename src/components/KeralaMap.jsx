@@ -145,7 +145,7 @@ export default function KeralaMap({ district, date, onDistrictSelect }) {
 
       <div className="relative rounded-xl overflow-hidden" style={{ height: 400, border: '1px solid rgba(56,189,248,0.08)' }}>
         <MapContainer center={[10.2, 76.4]} zoom={7} style={{ height: '100%', width: '100%' }} zoomControl={true} attributionControl={false}>
-          <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" attribution="&copy; CartoDB" />
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
           <GeoJSON key={`${date}-${district}`} data={KERALA_GEOJSON} style={styleFeature} onEachFeature={onEachFeature} />
         </MapContainer>
         <DistrictPanel district={selectedFeature} date={date} onClose={() => setSelectedFeature(null)} />
