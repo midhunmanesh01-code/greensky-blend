@@ -52,9 +52,9 @@ export function validateWeights(weights) {
 export function calculateSourceContribution(weights) {
   const pct = weightsToPercent(weights);
   return [
-    { name: "ECMWF IFS", value: pct.ifs,  color: "#2563eb" },
-    { name: "NCEP GFS",  value: pct.gfs,  color: "#16a34a" },
-    { name: "ECMWF AIFS",value: pct.aifs, color: "#7c3aed" },
+    { name: "ECMWF IFS", value: pct.ifs,  color: "#38bdf8" },
+    { name: "NCEP GFS",  value: pct.gfs,  color: "#34d399" },
+    { name: "ECMWF AIFS",value: pct.aifs, color: "#a78bfa" },
   ];
 }
 
@@ -73,10 +73,10 @@ export function calculateContributionMm(forecasts, weights) {
  * Return a confidence label and color based on raw confidence value.
  */
 export function getConfidenceLevel(confidence) {
-  if (confidence >= 0.85) return { label: "Very High", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200" };
-  if (confidence >= 0.75) return { label: "High",      color: "text-blue-600",    bg: "bg-blue-50",    border: "border-blue-200" };
-  if (confidence >= 0.65) return { label: "Moderate",  color: "text-amber-600",   bg: "bg-amber-50",   border: "border-amber-200" };
-  return                          { label: "Low",       color: "text-rose-600",    bg: "bg-rose-50",    border: "border-rose-200" };
+  if (confidence >= 0.85) return { label: "Very High", color: "text-emerald-400", bg: "rgba(52,211,153,0.1)", border: "border-emerald-500/20" };
+  if (confidence >= 0.75) return { label: "High",      color: "text-sky-400",     bg: "rgba(56,189,248,0.1)", border: "border-sky-500/20" };
+  if (confidence >= 0.65) return { label: "Moderate",  color: "text-amber-400",   bg: "rgba(251,191,36,0.1)", border: "border-amber-500/20" };
+  return                          { label: "Low",       color: "text-rose-400",    bg: "rgba(251,113,133,0.1)", border: "border-rose-500/20" };
 }
 
 /**
@@ -97,11 +97,11 @@ export function calculateSourceAgreement(forecasts) {
  * Get color class for rainfall intensity.
  */
 export function getRainfallColorClass(mm) {
-  if (mm >= 100) return "#0f172a";
-  if (mm >= 50)  return "#1e3a8a";
+  if (mm >= 100) return "#60a5fa";
+  if (mm >= 50)  return "#3b82f6";
   if (mm >= 25)  return "#2563eb";
-  if (mm >= 10)  return "#60a5fa";
-  return "#bfdbfe";
+  if (mm >= 10)  return "#1e40af";
+  return "#1e3a5c";
 }
 
 /**

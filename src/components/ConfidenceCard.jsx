@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Info } from 'lucide-react';
+import { Info } from 'lucide-react';
 import { getConfidenceLevel, calculateSourceAgreement } from '../utils/calculations';
 
 export default function ConfidenceCard({ confidence, forecasts }) {

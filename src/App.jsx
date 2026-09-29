@@ -1,53 +1,68 @@
-import React, { useState } from 'react';
-import Header from './components/Header';
-import Dashboard from './pages/Dashboard';
-import ForecastReplay from './components/ForecastReplay';
-import ValidationPanel from './components/ValidationPanel';
-import WeightMap from './components/WeightMap';
-
-const NAV_CONTENT = {
-  'Dashboard': Dashboard,
-  'Forecast Replay': () => (
-    <div className="max-w-screen-xl mx-auto px-4 sm:px-6 py-6 space-y-6">
-      <div className="rounded-2xl bg-gradient-to-r from-blue-700 to-green-600 p-6 text-white">
-        <h1 className="text-2xl font-extrabold">Forecast Replay</h1>
-        <p className="text-blue-100 text-sm mt-1">Step through the GreenSky blending pipeline across the forecast window.</p>
-      </div>
-      <ForecastReplay district="Pathanamthitta" />
-      <ForecastReplay district="Idukki" />
-    </div>
-  ),
-  'Model Contribution': () => (
-    <div className="max-w-screen-xl mx-auto px-4 sm:px-6 py-6 space-y-6">
-      <div className="rounded-2xl bg-gradient-to-r from-violet-700 to-blue-600 p-6 text-white">
-        <h1 className="text-2xl font-extrabold">Model Contribution</h1>
-        <p className="text-violet-100 text-sm mt-1">Adaptive source weight distribution across districts and conditions.</p>
-      </div>
-      <WeightMap selectedDistrict="Pathanamthitta" onDistrictSelect={() => {}} />
-    </div>
-  ),
-  'Validation': () => (
-    <div className="max-w-screen-xl mx-auto px-4 sm:px-6 py-6 space-y-6">
-      <div className="rounded-2xl bg-gradient-to-r from-amber-600 to-orange-600 p-6 text-white">
-        <h1 className="text-2xl font-extrabold">Validation Framework</h1>
-        <p className="text-amber-100 text-sm mt-1">GreenSky evaluation methodology and current project status.</p>
-      </div>
-      <ValidationPanel />
-    </div>
-  ),
-};
+import React from 'react';
+import Navbar from './components/Navbar';
+import HeroSection from './components/HeroSection';
+import ForecastSection from './components/ForecastSection';
+import BlendingSection from './components/BlendingSection';
+import ValidationSection from './components/ValidationSection';
+import ExtremeRainfallSection from './components/ExtremeRainfallSection';
+import MethodologySection from './components/MethodologySection';
+import ImpactSection from './components/ImpactSection';
+import ReferencesSection from './components/ReferencesSection';
+import Footer from './components/Footer';
 
 export default function App() {
-  const [activeNav, setActiveNav] = useState('Dashboard');
-
-  const PageComponent = NAV_CONTENT[activeNav] || Dashboard;
-
   return (
-    <div className="min-h-screen bg-slate-50">
-      <Header activeNav={activeNav} onNavChange={setActiveNav} />
-      <main>
-        <PageComponent />
+    <div className="min-h-screen bg-[#050a14] text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200">
+      {/* Sticky Premium Navbar */}
+      <Navbar />
+
+      {/* Main Single-Page Content Flow */}
+      <main className="relative">
+        {/* 1. Hero & Product Identity */}
+        <HeroSection />
+
+        {/* Divider Glow */}
+        <div className="divider" />
+
+        {/* 2. Forecast Overview & Multi-Source Synthesis (Includes Kerala Map & 24h Replay) */}
+        <ForecastSection />
+
+        {/* Divider Glow */}
+        <div className="divider" />
+
+        {/* 3. Adaptive Blending - Core ML Pipeline, Dynamic Weights, Donut Chart, Regional Profiles */}
+        <BlendingSection />
+
+        {/* Divider Glow */}
+        <div className="divider" />
+
+        {/* 4. Forecast Validation & Baseline Evaluation Ladder */}
+        <ValidationSection />
+
+        {/* 5. Extreme Rainfall Dedicated Threshold Skill Evaluation */}
+        <ExtremeRainfallSection />
+
+        {/* Divider Glow */}
+        <div className="divider" />
+
+        {/* 6. Research Methodology & Data Alignment Pipeline */}
+        <MethodologySection />
+
+        {/* Divider Glow */}
+        <div className="divider" />
+
+        {/* 7. Decision Support & Operational Impact */}
+        <ImpactSection />
+
+        {/* Divider Glow */}
+        <div className="divider" />
+
+        {/* 8. Data Sources & Scientific Literature References */}
+        <ReferencesSection />
       </main>
+
+      {/* 9. Dark Footer */}
+      <Footer />
     </div>
   );
 }

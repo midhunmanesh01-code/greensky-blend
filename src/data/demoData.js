@@ -375,18 +375,18 @@ export const SPATIAL_WEIGHTS = {
   Thiruvananthapuram: { ifs: 0.45, gfs: 0.33, aifs: 0.22 },
 };
 
-// Regime color helpers
+// Regime color helpers (dark theme)
 export const REGIME_COLORS = {
-  Monsoon:      { bg: "bg-blue-50",   text: "text-blue-700",   border: "border-blue-200" },
-  "Non-Monsoon": { bg: "bg-slate-50",  text: "text-slate-600",  border: "border-slate-200" },
-  "Heavy Rain":  { bg: "bg-rose-50",   text: "text-rose-700",   border: "border-rose-200" },
+  Monsoon:       { bg: "rgba(56,189,248,0.1)",  text: "text-sky-400",    border: "border-sky-500/20" },
+  "Non-Monsoon": { bg: "rgba(148,163,184,0.1)", text: "text-slate-400",  border: "border-slate-500/20" },
+  "Heavy Rain":  { bg: "rgba(251,113,133,0.1)", text: "text-rose-400",   border: "border-rose-500/20" },
 };
 
-// Rainfall intensity categories
+// Rainfall intensity categories (dark theme)
 export const RAINFALL_CATEGORIES = [
-  { max: 10,  label: "Light",     color: "#bfdbfe" },
-  { max: 25,  label: "Moderate",  color: "#60a5fa" },
-  { max: 50,  label: "Heavy",     color: "#2563eb" },
-  { max: 100, label: "Very Heavy",color: "#1e3a8a" },
-  { max: Infinity, label: "Extreme", color: "#0f172a" },
+  { max: 10,  label: "Light",      color: "#1e3a5c" },
+  { max: 25,  label: "Moderate",   color: "#1e40af" },
+  { max: 50,  label: "Heavy",      color: "#2563eb" },
+  { max: 100, label: "Very Heavy", color: "#3b82f6" },
+  { max: Infinity, label: "Extreme", color: "#60a5fa" },
 ];
