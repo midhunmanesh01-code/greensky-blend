@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import AppHeader from './components/AppHeader';
-import ContextBar from './components/ContextBar';
+import AppShell from './components/layout/AppShell';
 import DashboardView from './components/views/DashboardView';
 import SpatialMapView from './components/views/SpatialMapView';
 import BlendingView from './components/views/BlendingView';
@@ -32,93 +31,65 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050a14] text-slate-100 flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
-      
-      {/* 1. Header with Brand, Badges & View Tabs (like ls-monitor) */}
-      <AppHeader activeTab={activeTab} onTabChange={setActiveTab} />
+    <AppShell
+      activeTab={activeTab}
+      onTabChange={setActiveTab}
+      district={district}
+      date={date}
+      onDistrictChange={handleDistrictChange}
+      onDateChange={handleDateChange}
+      blendedValue={blendedValue}
+      confidence={currentData.confidence}
+      regime={currentData.regime}
+    >
+      {activeTab === 'dashboard' && (
+        <DashboardView
+          district={district}
+          data={currentData}
+        />
+      )}
 
-      {/* 2. Operational Context Bar with Global Selectors */}
-      <ContextBar
-        district={district}
-        date={date}
-        onDistrictChange={handleDistrictChange}
-        onDateChange={handleDateChange}
-        blendedValue={blendedValue}
-        confidence={currentData.confidence}
-        regime={currentData.regime}
-      />
+      {activeTab === 'risk-map' && (
+        <SpatialMapView
+          district={district}
+          date={date}
+          onDistrictSelect={handleDistrictChange}
+        />
+      )}
 
-      {/* 3. Main Operational Screen Viewport */}
-      <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 py-4">
-        {activeTab === 'dashboard' && (
-          <DashboardView
-            district={district}
-            data={currentData}
-          />
-        )}
+      {activeTab === 'blending' && (
+        <BlendingView
+          district={district}
+          data={currentData}
+          onDistrictSelect={handleDistrictChange}
+        />
+      )}
 
-        {activeTab === 'map' && (
-          <SpatialMapView
-            district={district}
-            date={date}
-            onDistrictSelect={handleDistrictChange}
-          />
-        )}
+      {activeTab === 'historical' && (
+        <ReplayView
+          district={district}
+        />
+      )}
 
-        {activeTab === 'blending' && (
-          <BlendingView
-            district={district}
-            data={currentData}
-            onDistrictSelect={handleDistrictChange}
-          />
-        )}
+      {activeTab === 'validation' && (
+        <ValidationView />
+      )}
 
-        {activeTab === 'replay' && (
-          <ReplayView
-            district={district}
-          />
-        )}
+      {activeTab === 'extreme' && (
+        <ExtremeRainView />
+      )}
 
-        {activeTab === 'validation' && (
-          <ValidationView />
-        )}
+      {activeTab === 'methodology' && (
+        <MethodologyView />
+      )}
 
-        {activeTab === 'extreme' && (
-          <ExtremeRainView />
-        )}
+      {activeTab === 'impact' && (
+        <ImpactView />
+      )}
 
-        {activeTab === 'methodology' && (
-          <MethodologyView />
-        )}
-
-        {activeTab === 'impact' && (
-          <ImpactView />
-        )}
-
-        {activeTab === 'references' && (
-          <ReferencesView />
-        )}
-      </main>
-
-      {/* 4. Sleek Operational Bottom Status Strip */}
-      <footer className="bg-[#070e1c] border-t border-slate-800/80 py-2.5 px-4 sm:px-6 text-[11px] text-slate-500">
-        <div className="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-300">GreenSky Blend</span>
-            <span className="text-slate-600">·</span>
-            <span>Adaptive Multi-Model Weather Forecasting</span>
-            <span className="text-slate-600">·</span>
-            <span className="font-mono text-cyan-400">SIH26081</span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <span>Kerala Pilot · 6-District Demonstration</span>
-            <span className="text-slate-600">·</span>
-            <span className="text-slate-400 font-mono">Team NEXA_CHN</span>
-          </div>
-        </div>
-      </footer>
-
-    </div>
+      {activeTab === 'references' && (
+        <ReferencesView />
+      )}
+    </AppShell>
   );
 }
