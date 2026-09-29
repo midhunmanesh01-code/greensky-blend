@@ -84,7 +84,7 @@ export default function Logo({ size = 'md', showText = true, className = '' }) {
             GreenSky Blend
           </div>
           <div className={`${s.sub} font-semibold text-amber-400 uppercase tracking-widest font-mono truncate`}>
-            Kerala Pilot · 24H
+            Kerala Scope · 24H
           </div>
         </div>
       )}

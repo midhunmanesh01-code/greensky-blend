@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AppShell from './components/layout/AppShell';
+import LoadingScreen from './components/common/LoadingScreen';
 import DashboardView from './components/views/DashboardView';
 import SpatialMapView from './components/views/SpatialMapView';
 import BlendingView from './components/views/BlendingView';
@@ -14,6 +15,7 @@ import { FORECAST_DATA } from './data/demoData';
 import { calculateBlendedForecast } from './utils/calculations';
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [district, setDistrict] = useState('Pathanamthitta');
   const [date, setDate] = useState('2026-07-01');
@@ -21,6 +23,10 @@ export default function App() {
   // Active district & date forecast data
   const currentData = FORECAST_DATA[district]?.[date] || FORECAST_DATA['Pathanamthitta']['2026-07-01'];
   const blendedValue = calculateBlendedForecast(currentData.forecasts, currentData.weights);
+
+  if (loading) {
+    return <LoadingScreen onFinish={() => setLoading(false)} />;
+  }
 
   const handleDistrictChange = (d) => {
     setDistrict(d);
