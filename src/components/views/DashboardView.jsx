@@ -71,7 +71,7 @@ export default function DashboardView({ district, data }) {
         <div className="flex items-center gap-2.5">
           <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
           <p className="text-slate-300">
-            <strong className="text-slate-100 font-semibold">Benchmark Grid Cell:</strong> <span className="font-mono text-amber-400">10.75°N, 76.25°E</span> (Central Kerala · IMD Reference Gauge) &bull; <strong className="text-slate-100 font-semibold">District Context:</strong> <span className="text-amber-300 font-bold">{district}</span>
+            <strong className="text-slate-100 font-semibold">Representative IMD Cell:</strong> <span className="font-mono text-amber-400">{data.lat || 10.75}°N, {data.lon || 76.25}°E</span> ({district} · {data.station || 'Pilot Grid Cell'}) &bull; <strong className="text-slate-100 font-semibold">Elevation:</strong> <span className="text-amber-300 font-bold">{data.elevation_m || 0}m</span>
           </p>
         </div>
         <span className="text-[11px] text-slate-400 font-mono bg-slate-950 px-2.5 py-1 rounded border border-slate-800 shrink-0">
@@ -248,11 +248,11 @@ export default function DashboardView({ district, data }) {
                 Multi-Source NWP & Adaptive Consensus vs Ground Truth
               </h3>
               <p className="text-[11px] text-slate-400 mt-0.5">
-                Evaluated at Benchmark Grid (10.75°N, 76.25°E) against IMD 0.25° rain gauge (Convention B: 03:00 UTC)
+                Evaluated at Representative IMD Grid ({data.lat || 10.75}°N, {data.lon || 76.25}°E) against IMD 0.25° rain gauge (Convention B: 03:00 UTC)
               </p>
             </div>
             <span className="text-[10px] font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded border border-slate-800">
-              Benchmark Grid • {date}
+              {district} ({data.lat || 10.75}°N, {data.lon || 76.25}°E) • {date}
             </span>
           </div>
 

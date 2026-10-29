@@ -2,6 +2,7 @@ import React from 'react';
 import { MapPin, Calendar, Clock, CloudRain, ShieldCheck, Activity } from 'lucide-react';
 import { DISTRICTS, DATES } from '../../data/demoData';
 import { formatDateLabel, getConfidenceLevel } from '../../utils/calculations';
+import { PILOT_DISTRICTS } from '../../data/benchmarkData';
 
 export default function ControlBar({
   district,
@@ -14,6 +15,9 @@ export default function ControlBar({
   onTabChange,
 }) {
   const conf = getConfidenceLevel(confidence);
+  const activeMeta = PILOT_DISTRICTS?.find((d) => d.name === district);
+  const gridLabel = activeMeta ? `${activeMeta.lat}°N, ${activeMeta.lon}°E` : '10.75°N, 76.25°E';
+  const gridStation = activeMeta?.station || 'Benchmark';
 
   return (
     <div className="bg-slate-900/95 border-b border-slate-800 px-4 py-2.5 flex flex-col md:flex-row md:items-center justify-between gap-3 shrink-0">
@@ -38,11 +42,17 @@ export default function ControlBar({
           </select>
         </div>
 
-        {/* Benchmark Grid Location Badge */}
-        <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-slate-400 font-mono" title="Empirical IMD ground-truth grid cell for numerical validation">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-          <span>Benchmark Grid: <strong className="text-slate-200 font-bold">10.75°N, 76.25°E</strong></span>
-        </div>
+        {/* Representative IMD Grid Location Badge */}
+        <button
+          type="button"
+          onClick={() => onTabChange && onTabChange('district-pilot')}
+          className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-amber-500/50 text-xs text-slate-400 font-mono transition-colors cursor-pointer text-left"
+          title={`Representative IMD ground-truth grid cell for ${district} (${gridStation}). Click to open 6-District Pilot evaluation.`}
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+          <span>IMD Grid: <strong className="text-slate-200 font-bold">{gridLabel}</strong></span>
+          <span className="text-[10px] text-amber-400/90 font-sans uppercase font-bold bg-amber-950/60 px-1 rounded ml-1">Pilot</span>
+        </button>
 
         {/* Date Selector */}
         <div className="flex items-center gap-1.5 bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-1.5 text-xs shadow-inner">

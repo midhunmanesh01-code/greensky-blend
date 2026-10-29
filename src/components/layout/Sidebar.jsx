@@ -13,11 +13,13 @@ import {
   Menu,
   X,
   Radio,
+  Target,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'risk-map', label: 'Kerala GIS Map', icon: Map },
+  { id: 'district-pilot', label: '6-District Pilot', icon: Target },
   { id: 'blending', label: 'Adaptive Blending', icon: Layers },
   { id: 'historical', label: 'Forecast Replay', icon: History },
   { id: 'validation', label: 'Validation & Skill', icon: CheckCircle2 },

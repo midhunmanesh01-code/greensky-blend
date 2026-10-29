@@ -10,6 +10,7 @@ import ExtremeRainView from './components/views/ExtremeRainView';
 import MethodologyView from './components/views/MethodologyView';
 import ImpactView from './components/views/ImpactView';
 import ReferencesView from './components/views/ReferencesView';
+import DistrictAnalysisPage from './pages/DistrictAnalysisPage';
 
 import { FORECAST_DATA, DATES, DISTRICTS } from './data/demoData';
 import { calculateBlendedForecast } from './utils/calculations';
@@ -66,6 +67,13 @@ export default function App() {
           district={district}
           date={date}
           onDistrictSelect={handleDistrictChange}
+        />
+      )}
+
+      {activeTab === 'district-pilot' && (
+        <DistrictAnalysisPage
+          district={district}
+          onDistrictChange={handleDistrictChange}
         />
       )}
 

@@ -1,8 +1,9 @@
 // ============================================================
 // GreenSky Blend — Data Integration Layer
 // Sourced directly from greensky-benchmark (SIH26081)
-// Authoritative Ground Truth: IMD Gridded Rainfall (10.75°N, 76.25°E)
-// Models: ECMWF IFS025, NOAA NCEP GFS Seamless, Adaptive Blender
+// Phase 3 Multi-District Pilot Evaluation (Monsoon 2025)
+// Authoritative Ground Truth: IMD Gridded Rainfall (0.25° × 0.25°)
+// Models: ECMWF IFS025, NOAA NCEP GFS Seamless, Transferred Benchmark Blend
 // ============================================================
 
 import {
@@ -15,10 +16,12 @@ import {
   REPRESENTATIVE_DATES,
   ALL_BENCHMARK_DATES,
   EXPERIMENT_METRICS,
-  HISTORICAL_REPLAY_SEQUENCES,
   CONTINGENCY_15_6,
   HEAVY_RAIN_DAYS,
   EXTREME_RAIN_DAYS,
+  DISTRICT_DAILY_DATA,
+  DISTRICT_METRICS,
+  DISTRICT_LEARNED_WEIGHTS,
 } from './benchmarkData';
 
 // Re-export all authoritative benchmark constructs
@@ -31,10 +34,12 @@ export {
   REPRESENTATIVE_DATES,
   ALL_BENCHMARK_DATES,
   EXPERIMENT_METRICS,
-  HISTORICAL_REPLAY_SEQUENCES,
   CONTINGENCY_15_6,
   HEAVY_RAIN_DAYS,
   EXTREME_RAIN_DAYS,
+  DISTRICT_DAILY_DATA,
+  DISTRICT_METRICS,
+  DISTRICT_LEARNED_WEIGHTS,
 };
 
 export const DISTRICTS = RAW_DISTRICTS;
@@ -57,73 +62,100 @@ function computeAgreementConfidence(ecmwf, gfs) {
   return Math.round(conf * 100) / 100;
 }
 
-// Build district-level forecast structure directly connected to real benchmark observations
+// Build district-level forecast structure directly connected to real Phase 3 benchmark observations
 export const FORECAST_DATA = {};
 
 DISTRICTS.forEach((district) => {
   FORECAST_DATA[district] = {};
 
-  BENCHMARK_DAYS.forEach((day) => {
-    const { date, ecmwf, gfs, regime_code, ecmwf_weight, gfs_weight, adaptive_blend, imd_rain } = day;
+  const daysSource = DISTRICT_DAILY_DATA[district] || BENCHMARK_DAYS;
+
+  daysSource.forEach((day) => {
+    const {
+      date,
+      ecmwf,
+      gfs,
+      regime_code,
+      transferred_w_ec,
+      transferred_w_gfs,
+      ecmwf_weight,
+      gfs_weight,
+      transferred_blend,
+      adaptive_blend,
+      district_blend,
+      imd_rain,
+      lat,
+      lon,
+      elevation_m
+    } = day;
+
+    const w_ec = transferred_w_ec !== undefined ? transferred_w_ec : (ecmwf_weight !== undefined ? ecmwf_weight : 0.5);
+    const w_gfs = transferred_w_gfs !== undefined ? transferred_w_gfs : (gfs_weight !== undefined ? gfs_weight : 0.5);
+    const blendVal = transferred_blend !== undefined ? transferred_blend : (adaptive_blend !== undefined ? adaptive_blend : round((w_ec * ecmwf + w_gfs * gfs), 2));
+
     const confidence = computeAgreementConfidence(ecmwf, gfs);
 
     FORECAST_DATA[district][date] = {
       date,
       district,
+      lat: lat || 10.75,
+      lon: lon || 76.25,
+      elevation_m: elevation_m || 0.0,
       regime: day.regime,
       regime_code,
       imd_rain,
       forecasts: {
         ifs: ecmwf,
         gfs: gfs,
-        aifs: adaptive_blend, // Reflects consensus/ML prediction in hybrid 3-slot telemetry
+        aifs: blendVal, // Consensus primary blend (Transferred Benchmark Blend)
       },
       weights: {
-        ifs: ecmwf_weight,
-        gfs: gfs_weight,
+        ifs: w_ec,
+        gfs: w_gfs,
         aifs: 0.0,
       },
       confidence,
-      adaptive_blend,
+      adaptive_blend: blendVal,
+      transferred_blend: blendVal,
+      district_blend: district_blend !== undefined ? district_blend : blendVal,
       equal_blend: day.equal_blend,
       is_heavy: day.is_heavy,
       is_extreme: day.is_extreme,
-      status: "Historical Benchmark (Convention B Aligned)",
+      status: "Historical Evaluation (Convention B Aligned)",
     };
   });
 });
 
-// Replay data series per district sourced from actual benchmark records
+// Replay data series per district sourced from actual Phase 3 test split records
 export const REPLAY_DATA = {};
 
 DISTRICTS.forEach((district) => {
-  // Use the 28-day locked unseen test split (Aug 4–31, 2025) as the primary chronological replay series
-  const testDays = BENCHMARK_DAYS.filter((d) => d.is_test_exp1);
+  const daysSource = DISTRICT_DAILY_DATA[district] || BENCHMARK_DAYS;
+  // Use the 28-day locked test split (Aug 4–31, 2025)
+  const testDays = daysSource.filter((d) => d.date >= "2025-08-04");
   
   REPLAY_DATA[district] = testDays.map((d) => ({
     date: d.date.substring(5), // "08-04" format
     fullDate: d.date,
     ifs: d.ecmwf,
     gfs: d.gfs,
-    aifs: d.gradboost_atmos ?? d.adaptive_blend,
-    blend: d.adaptive_blend,
+    aifs: d.district_blend ?? d.transferred_blend ?? d.adaptive_blend,
+    blend: d.transferred_blend ?? d.adaptive_blend,
     equal: d.equal_blend,
     imd_rain: d.imd_rain,
     regime: d.regime,
-    w_ec: d.ecmwf_weight,
+    w_ec: d.transferred_w_ec ?? d.ecmwf_weight ?? 0.5,
   }));
 });
 
 // Representative regional demonstration profiles across Kerala 6-District Pilot
-// Note: Empirical ML weights were trained at the central Benchmark Grid Cell (10.75°N, 76.25°E)
-// and are conditioned on rainfall intensity regimes, not independently trained per district.
 export const SPATIAL_WEIGHTS = {
-  Pathanamthitta:     { ifs: 0.60, gfs: 0.40, aifs: 0.00, regime: "Moderate/Orographic" },
-  Idukki:             { ifs: 0.45, gfs: 0.55, aifs: 0.00, regime: "Heavy/High-Range" },
-  Wayanad:            { ifs: 0.45, gfs: 0.55, aifs: 0.00, regime: "Heavy/High-Range" },
-  Kottayam:           { ifs: 0.60, gfs: 0.40, aifs: 0.00, regime: "Moderate/Midland" },
-  Ernakulam:          { ifs: 1.00, gfs: 0.00, aifs: 0.00, regime: "Light/Coastal" },
-  Thiruvananthapuram: { ifs: 1.00, gfs: 0.00, aifs: 0.00, regime: "Light/Coastal" },
+  Pathanamthitta:     { ifs: 0.60, gfs: 0.40, aifs: 0.00, regime: "Moderate/Midland" },
+  Idukki:             { ifs: 0.45, gfs: 0.55, aifs: 0.00, regime: "Mountain/Dam Catchment" },
+  Wayanad:            { ifs: 0.45, gfs: 0.55, aifs: 0.00, regime: "Highland Plateau" },
+  Kottayam:           { ifs: 0.60, gfs: 0.40, aifs: 0.00, regime: "Midland Basin" },
+  Ernakulam:          { ifs: 1.00, gfs: 0.00, aifs: 0.00, regime: "Coastal/Estuary" },
+  Thiruvananthapuram: { ifs: 1.00, gfs: 0.00, aifs: 0.00, regime: "Southern Midland" },
 };
 
 // Regime color styling (dark theme)

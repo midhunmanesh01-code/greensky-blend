@@ -1,9 +1,10 @@
 import React from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { PILOT_DISTRICTS, DISTRICTS, BENCHMARK_LOOKUP, BENCHMARK_METADATA } from '../../data/benchmarkData';
+import { PILOT_DISTRICTS, DISTRICTS, DISTRICT_METRICS } from '../../data/benchmarkData';
+import { FORECAST_DATA } from '../../data/demoData';
 import { calculateBlendedForecast, getRainfallColorClass, getConfidenceLevel, weightsToPercent } from '../../utils/calculations';
-import { MapPin, Layers, CheckCircle2, ShieldCheck, Database } from 'lucide-react';
+import { MapPin, Layers, CheckCircle2, ShieldCheck, Database, Scale } from 'lucide-react';
 
 const KERALA_GEOJSON = {
   type: "FeatureCollection",
@@ -20,29 +21,33 @@ const KERALA_GEOJSON = {
 const COLORS = { ifs: '#38bdf8', gfs: '#34d399', imd: '#a78bfa' };
 
 export default function SpatialMapView({ district, date, onDistrictSelect }) {
-  const benchmarkDay = BENCHMARK_LOOKUP[date] || BENCHMARK_LOOKUP['2025-08-28'] || {
-    date: '2025-08-28',
-    ecmwf: 34.4,
-    gfs: 62.2,
-    equal_blend: 48.3,
+  const districtData = (FORECAST_DATA[district] && FORECAST_DATA[district][date]) || {
+    date: date || '2025-08-28',
+    district: district || 'Pathanamthitta',
+    lat: 9.25,
+    lon: 76.75,
+    elevation_m: 15,
+    forecasts: { ifs: 34.4, gfs: 62.2, aifs: 49.7 },
+    weights: { ifs: 0.45, gfs: 0.55 },
     adaptive_blend: 49.7,
+    transferred_blend: 49.7,
     imd_rain: 41.2,
-    ecmwf_weight: 0.45,
-    gfs_weight: 0.55,
     regime: 'Heavy (>= 35 mm)',
+    confidence: 0.82
   };
 
   const districtMeta = PILOT_DISTRICTS.find((d) => d.name === district) || PILOT_DISTRICTS[0];
+  const districtMetrics = (DISTRICT_METRICS[district] && DISTRICT_METRICS[district]['Transferred Benchmark Blend']) || {};
 
-  const forecasts = { ifs: benchmarkDay.ecmwf, gfs: benchmarkDay.gfs };
-  const weights = { ifs: benchmarkDay.ecmwf_weight, gfs: benchmarkDay.gfs_weight };
-  const blended = benchmarkDay.adaptive_blend;
+  const forecasts = districtData.forecasts;
+  const weights = districtData.weights;
+  const blended = districtData.transferred_blend || districtData.adaptive_blend || calculateBlendedForecast(forecasts, weights);
   const pct = weightsToPercent(weights);
-  const confLevel = getConfidenceLevel(0.82);
 
   const styleFeature = (feature) => {
     const d = feature.properties.district;
-    const fillColor = getRainfallColorClass(blended);
+    const dForecast = (FORECAST_DATA[d] && FORECAST_DATA[d][date] && (FORECAST_DATA[d][date].transferred_blend || FORECAST_DATA[d][date].adaptive_blend)) || blended;
+    const fillColor = getRainfallColorClass(dForecast);
     const isSelected = d === district;
 
     return {
@@ -55,12 +60,13 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
 
   const onEachFeature = (feature, layer) => {
     const d = feature.properties.district;
+    const dForecast = (FORECAST_DATA[d] && FORECAST_DATA[d][date] && (FORECAST_DATA[d][date].transferred_blend || FORECAST_DATA[d][date].adaptive_blend)) || blended;
 
     layer.bindTooltip(
       `<div style="font-family:Inter,system-ui;padding:4px 8px;background:rgba(15,23,42,0.95);border:1px solid rgba(245,158,11,0.4);border-radius:6px;color:#fff;">
         <div style="font-weight:700;font-size:12px;">${d}</div>
-        <div style="font-size:10px;color:#94a3b8;">Pilot District Context</div>
-        <div style="font-size:11px;color:#f59e0b;margin-top:2px;">Benchmark Grid: <strong>${blended} mm</strong></div>
+        <div style="font-size:10px;color:#94a3b8;">${feature.properties.district} Pilot Cell</div>
+        <div style="font-size:11px;color:#f59e0b;margin-top:2px;">Consensus Blend: <strong>${dForecast} mm</strong></div>
       </div>`,
       { permanent: false, sticky: true, direction: 'top' }
     );
@@ -81,14 +87,14 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
           <div>
             <h3 className="text-xs font-bold text-slate-100 uppercase tracking-wider flex items-center gap-2">
               <MapPin className="w-3.5 h-3.5 text-amber-400" />
-              Kerala 6-District Pilot — Spatial Demonstration Map
+              Kerala 6-District Pilot — Spatial Map
             </h3>
             <p className="text-[11px] text-slate-400 mt-0.5">
-              Click any district to inspect its regional hazard context. Numerical values reflect the central Benchmark Grid (10.75°N, 76.25°E).
+              Select any district to inspect its representative IMD 0.25° grid cell. All values derive from Phase 3 historical evaluations.
             </p>
           </div>
           <span className="text-[10px] font-mono text-amber-400 bg-amber-950/80 px-2.5 py-1 rounded border border-amber-800/60 self-start sm:self-auto">
-            Benchmark Grid: 10.75°N, 76.25°E
+            {district}: {districtMeta.lat}°N, {districtMeta.lon}°E ({districtMeta.elevation_m}m)
           </span>
         </div>
 
@@ -134,32 +140,42 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5 shadow-sm">
           <div className="flex items-center justify-between mb-2 pb-2 border-b border-slate-800">
             <div>
-              <p className="text-[10px] font-mono uppercase text-amber-400 font-bold">Pilot District Context</p>
+              <p className="text-[10px] font-mono uppercase text-amber-400 font-bold">{districtMeta.zone}</p>
               <h4 className="text-lg font-bold text-white">{district}</h4>
             </div>
             <div className="text-right">
-              <span className="text-[10px] text-slate-500 block font-mono">Benchmark Consensus</span>
+              <span className="text-[10px] text-slate-500 block font-mono">Transferred Blend</span>
               <span className="text-2xl font-extrabold font-mono text-amber-400">{blended} mm</span>
             </div>
           </div>
 
           <div className="space-y-2 my-3 text-xs">
             <div className="p-2 rounded bg-slate-950 border border-slate-800">
+              <span className="text-[10px] font-mono text-slate-500 uppercase block">Grid Cell Coordinates</span>
+              <span className="text-slate-200 font-medium font-mono">
+                {districtMeta.lat.toFixed(2)}°N, {districtMeta.lon.toFixed(2)}°E &bull; Elev: {districtMeta.elevation_m}m
+              </span>
+            </div>
+            <div className="p-2 rounded bg-slate-950 border border-slate-800">
               <span className="text-[10px] font-mono text-slate-500 uppercase block">Topography & Terrain</span>
               <span className="text-slate-200 font-medium">{districtMeta.terrain}</span>
             </div>
-            <div className="p-2 rounded bg-slate-950 border border-slate-800">
-              <span className="text-[10px] font-mono text-slate-500 uppercase block">Vulnerability Profile</span>
-              <span className="text-slate-200 font-medium">{districtMeta.hazardProfile}</span>
-            </div>
+            {districtMetrics.mae !== undefined && (
+              <div className="p-2 rounded bg-slate-950 border border-amber-500/30 flex items-center justify-between text-[11px] font-mono">
+                <span className="text-slate-400">Locked Test MAE:</span>
+                <span className="font-bold text-white">{districtMetrics.mae.toFixed(2)} mm</span>
+                <span className="text-slate-400 ml-2">CSI-15.6:</span>
+                <span className="font-bold text-amber-400">{districtMetrics.csi_15_6 !== null ? districtMetrics.csi_15_6.toFixed(3) : '0.000'}</span>
+              </div>
+            )}
           </div>
 
           <div className="space-y-2 pt-2 border-t border-slate-800">
-            <p className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Benchmark Grid Inputs ({date})</p>
+            <p className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Forecast Inputs ({date})</p>
             
             {[
-              { label: 'ECMWF IFS (9km)', val: benchmarkDay.ecmwf, wt: pct.ifs, color: COLORS.ifs },
-              { label: 'NCEP GFS (13km)', val: benchmarkDay.gfs, wt: pct.gfs, color: COLORS.gfs },
+              { label: 'ECMWF IFS (9km)', val: forecasts.ifs, wt: pct.ifs, color: COLORS.ifs },
+              { label: 'NCEP GFS (13km)', val: forecasts.gfs, wt: pct.gfs, color: COLORS.gfs },
             ].map(({ label, val, wt, color }) => (
               <div key={label} className="bg-slate-950 rounded-lg p-2.5 border border-slate-800">
                 <div className="flex items-center justify-between text-xs mb-1">
@@ -176,10 +192,10 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
             ))}
           </div>
 
-          {benchmarkDay.imd_rain !== undefined && (
+          {districtData.imd_rain !== undefined && (
             <div className="flex items-center justify-between pt-2.5 mt-2 border-t border-slate-800 text-xs">
               <span className="text-slate-400">IMD Ground Truth:</span>
-              <span className="font-bold text-purple-300 font-mono">{benchmarkDay.imd_rain} mm</span>
+              <span className="font-bold text-purple-300 font-mono">{districtData.imd_rain} mm</span>
             </div>
           )}
         </div>
