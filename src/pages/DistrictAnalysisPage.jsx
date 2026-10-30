@@ -97,12 +97,12 @@ export default function DistrictAnalysisPage({ district, onDistrictChange }) {
           </div>
 
           {/* District Quick-Selector Dropdown */}
-          <div className="flex items-center gap-2 bg-slate-950 border border-slate-700 rounded-lg p-2 shrink-0">
+          <div className="flex items-center justify-between sm:justify-start gap-2 bg-slate-950 border border-slate-700 rounded-lg p-2 shrink-0 w-full sm:w-auto">
             <span className="text-xs text-slate-400 font-medium">Select Pilot District:</span>
             <select
               value={distName}
               onChange={(e) => onDistrictChange(e.target.value)}
-              className="bg-slate-900 text-amber-400 font-bold text-xs rounded px-2.5 py-1.5 border border-slate-700 focus:outline-none focus:border-amber-500 cursor-pointer"
+              className="bg-slate-900 text-amber-400 font-bold text-xs rounded px-2.5 py-1.5 border border-slate-700 focus:outline-none focus:border-amber-500 cursor-pointer min-h-[38px]"
             >
               {PILOT_DISTRICTS.map((d) => (
                 <option key={d.name} value={d.name}>
@@ -204,8 +204,12 @@ export default function DistrictAnalysisPage({ district, onDistrictChange }) {
           </span>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs font-mono">
+        <p className="sm:hidden text-[10px] font-mono text-amber-400/90 mb-2 flex items-center gap-1">
+          <span>&larr; Swipe horizontally to view full 9-metric benchmark evaluation &rarr;</span>
+        </p>
+
+        <div className="overflow-x-auto touch-scroll">
+          <table className="w-full min-w-[620px] text-left text-xs font-mono">
             <thead>
               <tr className="border-b border-slate-800 text-slate-400 text-[11px]">
                 <th className="pb-2.5 font-bold uppercase tracking-wider">Model / Blend Pipeline</th>
@@ -285,11 +289,11 @@ export default function DistrictAnalysisPage({ district, onDistrictChange }) {
           </div>
         </div>
 
-        <div className="h-72 w-full">
+        <div className="h-72 w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={testSetData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <ComposedChart data={testSetData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-              <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 10 }} />
+              <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 9 }} minTickGap={14} />
               <YAxis stroke="#64748b" tick={{ fontSize: 10 }} unit="mm" />
               <Tooltip
                 content={({ active, payload, label }) => {
@@ -339,8 +343,8 @@ export default function DistrictAnalysisPage({ district, onDistrictChange }) {
             </span>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-mono">
+          <div className="overflow-x-auto touch-scroll">
+            <table className="w-full min-w-[460px] text-left text-xs font-mono">
               <thead>
                 <tr className="border-b border-slate-800 text-slate-400 text-[10px]">
                   <th className="pb-2">Regime</th>

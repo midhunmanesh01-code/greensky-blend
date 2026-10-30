@@ -99,10 +99,11 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
         </div>
 
         {/* Map */}
-        <div className="relative rounded-lg overflow-hidden border border-slate-800" style={{ height: 440 }}>
+        <div className="relative rounded-lg overflow-hidden border border-slate-800 h-[300px] sm:h-[380px] lg:h-[440px]">
           <MapContainer 
             center={[10.2, 76.4]} 
             zoom={7} 
+            scrollWheelZoom={false}
             style={{ height: '100%', width: '100%', background: '#020617' }} 
             zoomControl={true} 
             attributionControl={false}
@@ -113,8 +114,8 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
           </MapContainer>
 
           {/* Floating Map Legend */}
-          <div className="absolute bottom-3 left-3 z-[1000] bg-slate-950/95 border border-slate-700/80 rounded-lg p-2.5 text-[10px] backdrop-blur-md shadow-xl">
-            <span className="font-bold text-slate-300 block mb-1.5 font-mono">Precipitation Scale (mm/24h):</span>
+          <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 z-[1000] bg-slate-950/95 border border-slate-700/80 rounded-lg p-2 sm:p-2.5 text-[9px] sm:text-[10px] backdrop-blur-md shadow-xl max-w-[calc(100%-16px)]">
+            <span className="font-bold text-slate-300 block mb-1 font-mono">Precipitation Scale (mm/24h):</span>
             <div className="flex items-center gap-1.5 flex-wrap">
               {[
                 { color: '#1e3a5c', label: '< 5' },
@@ -215,7 +216,7 @@ export default function SpatialMapView({ district, date, onDistrictSelect }) {
                 <button
                   key={d.name}
                   onClick={() => onDistrictSelect(d.name)}
-                  className={`p-2.5 rounded-lg text-left transition-all text-xs border flex flex-col justify-between ${
+                  className={`p-2.5 rounded-lg text-left transition-all text-xs border flex flex-col justify-between min-h-[44px] cursor-pointer touch-manipulation ${
                     isCurrent
                       ? 'bg-amber-600 text-slate-950 border-amber-500 shadow-md font-bold'
                       : 'bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700 hover:bg-slate-800/60'

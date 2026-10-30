@@ -240,8 +240,8 @@ export default function DashboardView({ district, data }) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         
         {/* Left 2 Cols: Recharts Forecast Comparison with Ground Truth */}
-        <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-slate-800">
+        <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-3.5 sm:p-5 flex flex-col justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 pb-2.5 border-b border-slate-800">
             <div>
               <h3 className="text-xs font-bold text-slate-100 uppercase tracking-wider flex items-center gap-2">
                 <TrendingUp className="w-3.5 h-3.5 text-amber-400" />
@@ -251,29 +251,35 @@ export default function DashboardView({ district, data }) {
                 Evaluated at Representative IMD Grid ({data.lat || 10.75}°N, {data.lon || 76.25}°E) against IMD 0.25° rain gauge (Convention B: 03:00 UTC)
               </p>
             </div>
-            <span className="text-[10px] font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded border border-slate-800">
-              {district} ({data.lat || 10.75}°N, {data.lon || 76.25}°E) • {date}
+            <span className="text-[10px] font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded border border-slate-800 self-start sm:self-auto shrink-0">
+              {district} • {date}
             </span>
           </div>
 
-          <div className="h-[250px] w-full my-1">
+          <div className="h-[250px] sm:h-[280px] w-full min-w-0 my-1">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} margin={{ top: 12, right: 15, left: -10, bottom: 0 }}>
+              <BarChart data={chartData} margin={{ top: 12, right: 10, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
                 <XAxis 
                   dataKey="name" 
-                  tick={{ fontSize: 11, fill: '#94a3b8' }} 
+                  tick={{ fontSize: 10, fill: '#94a3b8' }} 
                   axisLine={{ stroke: '#334155' }}
                   tickLine={false}
+                  tickFormatter={(val) => {
+                    if (val === 'Equal Blend (50/50)') return 'Equal (50/50)';
+                    if (val === 'GreenSky Blend') return 'GreenSky';
+                    if (val === 'IMD Ground Truth') return 'IMD Rain';
+                    return val;
+                  }}
                 />
                 <YAxis 
-                  tick={{ fontSize: 11, fill: '#94a3b8' }} 
+                  tick={{ fontSize: 10, fill: '#94a3b8' }} 
                   axisLine={{ stroke: '#334155' }}
                   tickLine={false}
                   unit=" mm"
                 />
                 <Tooltip content={<ChartTooltip />} cursor={{ fill: 'rgba(245,158,11,0.04)' }} />
-                <Bar dataKey="value" radius={[6, 6, 0, 0]} barSize={44}>
+                <Bar dataKey="value" radius={[6, 6, 0, 0]} maxBarSize={40}>
                   {chartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.fill} />
                   ))}
@@ -282,8 +288,8 @@ export default function DashboardView({ district, data }) {
             </ResponsiveContainer>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between text-[11px] text-slate-400 pt-3 border-t border-slate-800 gap-2">
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+          <div className="flex flex-wrap items-center justify-between text-[10px] sm:text-[11px] text-slate-400 pt-3 border-t border-slate-800 gap-2">
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-4">
               <span className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#38bdf8]" /> ECMWF IFS
               </span>

@@ -44,7 +44,7 @@ export default function ExtremeRainView() {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex overflow-x-auto no-scrollbar touch-scroll gap-1.5 pb-1 sm:pb-0">
             {[
               { id: 'adaptive', label: 'GreenSky Adaptive' },
               { id: 'equal', label: 'Equal Blend (50/50)' },
@@ -55,7 +55,7 @@ export default function ExtremeRainView() {
               <button
                 key={tab.id}
                 onClick={() => setSelectedModelKey(tab.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors border ${
+                className={`px-3 py-2 sm:py-1.5 rounded-lg text-xs font-semibold transition-colors border shrink-0 min-h-[38px] sm:min-h-0 cursor-pointer ${
                   selectedModelKey === tab.id
                     ? 'bg-amber-600 text-slate-950 border-amber-500 font-bold shadow-sm'
                     : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200 hover:bg-slate-800/60'
@@ -70,70 +70,70 @@ export default function ExtremeRainView() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           
           {/* 2x2 Matrix Cards with Real Counts */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2 sm:gap-3">
             
             {/* Hits */}
-            <div className="bg-emerald-950/30 border border-emerald-800/50 rounded-lg p-3.5 flex flex-col justify-between">
+            <div className="bg-emerald-950/30 border border-emerald-800/50 rounded-lg p-2.5 sm:p-3.5 flex flex-col justify-between">
               <div className="flex items-center justify-between text-xs mb-1">
                 <span className="font-bold text-emerald-400">Hits (A)</span>
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
               </div>
-              <div className="text-2xl font-extrabold font-mono text-emerald-300 my-1">
+              <div className="text-xl sm:text-2xl font-extrabold font-mono text-emerald-300 my-0.5 sm:my-1">
                 {activeContingency.hits} <span className="text-xs font-normal text-slate-400">days</span>
               </div>
-              <p className="text-[11px] text-slate-300">
+              <p className="text-[10px] sm:text-[11px] text-slate-300">
                 Forecast: <strong className="text-emerald-300">≥ 15.6 mm</strong><br />
                 Observed: <strong className="text-emerald-300">≥ 15.6 mm</strong>
               </p>
-              <span className="text-[10px] font-mono text-emerald-400/80 mt-1.5">Correct Heavy Warning</span>
+              <span className="text-[9px] sm:text-[10px] font-mono text-emerald-400/80 mt-1 sm:mt-1.5">Correct Heavy Warning</span>
             </div>
 
             {/* False Alarms */}
-            <div className="bg-amber-950/30 border border-amber-800/50 rounded-lg p-3.5 flex flex-col justify-between">
+            <div className="bg-amber-950/30 border border-amber-800/50 rounded-lg p-2.5 sm:p-3.5 flex flex-col justify-between">
               <div className="flex items-center justify-between text-xs mb-1">
                 <span className="font-bold text-amber-400">False Alarms (B)</span>
                 <XCircle className="w-4 h-4 text-amber-400" />
               </div>
-              <div className="text-2xl font-extrabold font-mono text-amber-300 my-1">
+              <div className="text-xl sm:text-2xl font-extrabold font-mono text-amber-300 my-0.5 sm:my-1">
                 {activeContingency.falseAlarms} <span className="text-xs font-normal text-slate-400">days</span>
               </div>
-              <p className="text-[11px] text-slate-300">
+              <p className="text-[10px] sm:text-[11px] text-slate-300">
                 Forecast: <strong className="text-amber-300">≥ 15.6 mm</strong><br />
                 Observed: <strong className="text-slate-400">&lt; 15.6 mm</strong>
               </p>
-              <span className="text-[10px] font-mono text-amber-400/80 mt-1.5">False Alert Dispatched</span>
+              <span className="text-[9px] sm:text-[10px] font-mono text-amber-400/80 mt-1 sm:mt-1.5">False Alert Dispatched</span>
             </div>
 
             {/* Misses */}
-            <div className="bg-rose-950/30 border border-rose-800/50 rounded-lg p-3.5 flex flex-col justify-between">
+            <div className="bg-rose-950/30 border border-rose-800/50 rounded-lg p-2.5 sm:p-3.5 flex flex-col justify-between">
               <div className="flex items-center justify-between text-xs mb-1">
                 <span className="font-bold text-rose-400">Misses (C)</span>
                 <AlertTriangle className="w-4 h-4 text-rose-400" />
               </div>
-              <div className="text-2xl font-extrabold font-mono text-rose-300 my-1">
+              <div className="text-xl sm:text-2xl font-extrabold font-mono text-rose-300 my-0.5 sm:my-1">
                 {activeContingency.misses} <span className="text-xs font-normal text-slate-400">days</span>
               </div>
-              <p className="text-[11px] text-slate-300">
+              <p className="text-[10px] sm:text-[11px] text-slate-300">
                 Forecast: <strong className="text-slate-400">&lt; 15.6 mm</strong><br />
                 Observed: <strong className="text-rose-300">≥ 15.6 mm</strong>
               </p>
-              <span className="text-[10px] font-mono text-rose-400/80 mt-1.5">Unpredicted Heavy Rain</span>
+              <span className="text-[9px] sm:text-[10px] font-mono text-rose-400/80 mt-1 sm:mt-1.5">Unpredicted Heavy Rain</span>
             </div>
 
             {/* Correct Rejections */}
-            <div className="bg-slate-950 border border-slate-800 rounded-lg p-3.5 flex flex-col justify-between">
+            <div className="bg-slate-950 border border-slate-800 rounded-lg p-2.5 sm:p-3.5 flex flex-col justify-between">
               <div className="flex items-center justify-between text-xs mb-1">
                 <span className="font-bold text-slate-400">Correct Rejections (D)</span>
                 <CheckCircle2 className="w-4 h-4 text-slate-500" />
               </div>
-              <div className="text-2xl font-extrabold font-mono text-slate-300 my-1">
+              <div className="text-xl sm:text-2xl font-extrabold font-mono text-slate-300 my-0.5 sm:my-1">
                 {activeContingency.correctRejections} <span className="text-xs font-normal text-slate-400">days</span>
               </div>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[10px] sm:text-[11px] text-slate-400">
                 Forecast: <strong className="text-slate-400">&lt; 15.6 mm</strong><br />
                 Observed: <strong className="text-slate-400">&lt; 15.6 mm</strong>
               </p>
-              <span className="text-[10px] font-mono text-slate-500 mt-1.5">Correct Non-Event</span>
+              <span className="text-[9px] sm:text-[10px] font-mono text-slate-500 mt-1 sm:mt-1.5">Correct Non-Event</span>
             </div>
 
           </div>

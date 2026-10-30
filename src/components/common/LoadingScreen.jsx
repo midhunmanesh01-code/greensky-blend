@@ -96,9 +96,9 @@ export default function LoadingScreen({ onFinish }) {
           <div className="flex items-center justify-between pt-1 text-[10px] font-mono text-slate-400 border-t border-slate-800">
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-emerald-400 font-semibold">LIVE FEEDS CONNECTED</span>
+              <span className="text-emerald-400 font-semibold text-[9px] sm:text-[10px]">LIVE FEEDS CONNECTED</span>
             </div>
-            <span className="text-slate-400">24H LEAD &bull; KERALA REGION</span>
+            <span className="text-slate-400 text-[9px] sm:text-[10px] hidden sm:inline">24H LEAD &bull; KERALA REGION</span>
           </div>
         </div>
 

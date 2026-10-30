@@ -91,7 +91,7 @@ export default function ReplayView({ district }) {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
           {/* Sequence Selector */}
           <select
             value={selectedSequenceKey}
@@ -99,7 +99,7 @@ export default function ReplayView({ district }) {
               setSelectedSequenceKey(e.target.value);
               reset();
             }}
-            className="bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 font-semibold focus:outline-none cursor-pointer"
+            className="bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-2 sm:py-1.5 font-semibold focus:outline-none cursor-pointer min-h-[40px] sm:min-h-0 w-full sm:w-auto"
           >
             <option value="locked_test">Locked Test Set (Aug 04–31, 28 Days)</option>
             <option value="aug_peak_surge">August Heavy Surge (Aug 14–20)</option>
@@ -108,37 +108,42 @@ export default function ReplayView({ district }) {
             <option value="full_season">Full 92-Day Monsoon Season</option>
           </select>
 
-          {completed && (
-            <button
-              onClick={reset}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition-colors"
-            >
-              <RotateCcw className="w-3 h-3" /> Reset
-            </button>
-          )}
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            {completed && (
+              <button
+                onClick={reset}
+                className="flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition-colors min-h-[40px] sm:min-h-0 cursor-pointer"
+              >
+                <RotateCcw className="w-3 h-3" /> Reset
+              </button>
+            )}
 
-          <button
-            onClick={runReplay}
-            disabled={playing}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold transition-all shadow-md ${
-              playing
-                ? 'bg-amber-950/60 text-amber-400 cursor-not-allowed border border-amber-800'
-                : 'bg-amber-600 hover:bg-amber-500 text-slate-950 border border-amber-500'
-            }`}
-          >
-            <Play className="w-3.5 h-3.5 fill-current" />
-            {playing ? 'Executing Pipeline...' : 'Run Pipeline Step Replay'}
-          </button>
+            <button
+              onClick={runReplay}
+              disabled={playing}
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2 sm:py-1.5 rounded-lg text-xs font-bold transition-all shadow-md min-h-[40px] sm:min-h-0 cursor-pointer ${
+                playing
+                  ? 'bg-amber-950/60 text-amber-400 cursor-not-allowed border border-amber-800'
+                  : 'bg-amber-600 hover:bg-amber-500 text-slate-950 border border-amber-500 active:bg-amber-700'
+              }`}
+            >
+              <Play className="w-3.5 h-3.5 fill-current" />
+              {playing ? 'Executing Pipeline...' : 'Run Pipeline Step Replay'}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* 7-Step Animated Progress Timeline */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5">
-        <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block mb-2.5">
-          Multi-Model Execution Pipeline & Data Flow
-        </span>
+        <div className="flex items-center justify-between mb-2.5">
+          <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block">
+            Multi-Model Execution Pipeline & Data Flow
+          </span>
+          <span className="sm:hidden text-[9px] font-mono text-amber-400/80">Swipe &rarr;</span>
+        </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 mb-2">
+        <div className="flex overflow-x-auto no-scrollbar touch-scroll gap-2 pb-1.5 sm:grid sm:grid-cols-4 lg:grid-cols-7 mb-2">
           {REPLAY_STEPS.map((step, i) => {
             const isDone = i < currentStep;
             const isCurrent = i === currentStep;
@@ -146,7 +151,7 @@ export default function ReplayView({ district }) {
             return (
               <div
                 key={step.id}
-                className={`p-2.5 rounded-lg border text-xs transition-all duration-300 ${
+                className={`p-2.5 rounded-lg border text-xs transition-all duration-300 min-w-[155px] sm:min-w-0 shrink-0 sm:shrink ${
                   isDone
                     ? 'bg-amber-950/40 border-amber-600/50 text-amber-300'
                     : isCurrent
@@ -189,11 +194,11 @@ export default function ReplayView({ district }) {
           </span>
         </div>
 
-        <div className="h-[300px] w-full">
+        <div className="h-[280px] sm:h-[320px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
+            <LineChart data={chartData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-              <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#64748b' }} axisLine={{ stroke: '#334155' }} />
+              <XAxis dataKey="date" tick={{ fontSize: 9, fill: '#64748b' }} axisLine={{ stroke: '#334155' }} minTickGap={20} />
               <YAxis tick={{ fontSize: 10, fill: '#64748b' }} axisLine={{ stroke: '#334155' }} unit=" mm" />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8', paddingTop: '8px' }} />

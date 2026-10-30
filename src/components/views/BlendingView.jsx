@@ -83,9 +83,9 @@ export default function BlendingView({ district, data, onDistrictSelect }) {
           </div>
 
           {/* Connector Arrow (1 Col) */}
-          <div className="lg:col-span-1 flex justify-center text-slate-600">
+          <div className="lg:col-span-1 flex justify-center text-slate-600 my-1 lg:my-0">
             <ArrowRight className="hidden lg:block w-5 h-5 text-amber-500/60" />
-            <ArrowDown className="lg:hidden w-5 h-5 text-amber-500/60" />
+            <ArrowDown className="lg:hidden w-5 h-5 text-amber-500/60 animate-bounce" />
           </div>
 
           {/* ML Context Layer (4 Cols) */}
@@ -108,9 +108,9 @@ export default function BlendingView({ district, data, onDistrictSelect }) {
           </div>
 
           {/* Connector Arrow (1 Col) */}
-          <div className="lg:col-span-1 flex justify-center text-slate-600">
+          <div className="lg:col-span-1 flex justify-center text-slate-600 my-1 lg:my-0">
             <ArrowRight className="hidden lg:block w-5 h-5 text-amber-500/60" />
-            <ArrowDown className="lg:hidden w-5 h-5 text-amber-500/60" />
+            <ArrowDown className="lg:hidden w-5 h-5 text-amber-500/60 animate-bounce" />
           </div>
 
           {/* Consensus Output (2 Cols) */}
@@ -160,7 +160,7 @@ export default function BlendingView({ district, data, onDistrictSelect }) {
           </div>
 
           {/* Mathematical Blending Equation */}
-          <div className="bg-slate-950 border border-slate-800 rounded-lg p-3 font-mono text-xs overflow-x-auto">
+          <div className="bg-slate-950 border border-slate-800 rounded-lg p-3 font-mono text-xs overflow-x-auto touch-scroll">
             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">
               Active Blending Equation (Convex Weighted Sum)
             </span>
@@ -187,7 +187,7 @@ export default function BlendingView({ district, data, onDistrictSelect }) {
             Model Weight Share
           </h4>
 
-          <div className="relative h-[160px] w-full">
+          <div className="relative h-[160px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -304,10 +304,10 @@ export default function BlendingView({ district, data, onDistrictSelect }) {
             const isSelected = d.name === district;
 
             return (
-              <button
+                <button
                 key={d.name}
                 onClick={() => onDistrictSelect(d.name)}
-                className={`p-2.5 rounded-lg text-left transition-all border ${
+                className={`p-2.5 rounded-lg text-left transition-all border min-h-[44px] cursor-pointer touch-manipulation flex flex-col justify-between ${
                   isSelected
                     ? 'bg-amber-600 text-slate-950 border-amber-500 shadow-md font-bold'
                     : 'bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700 hover:bg-slate-800/60'

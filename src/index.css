@@ -22,6 +22,8 @@ body {
   color: #f1f5f9;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
@@ -44,7 +46,7 @@ body {
   background: #475569;
 }
 
-/* Leaflet Container & Popup styling matching ls-monitor */
+/* Leaflet Container & Popup styling matching dark theme */
 .leaflet-container {
   background: #020617 !important;
   font-family: inherit;
@@ -86,7 +88,7 @@ body {
   color: #94a3b8 !important;
 }
 
-/* Mobile utilities */
+/* Mobile safe area & touch utilities */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -98,8 +100,15 @@ body {
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+
 .pt-safe {
   padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Smooth momentum scrolling on mobile devices */
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .font-mono {

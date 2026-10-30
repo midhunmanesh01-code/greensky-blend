@@ -17,29 +17,29 @@ export default function ValidationView() {
     <div className="space-y-4">
       
       {/* 1. Metric Definition & Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
         {METRICS.map((m) => {
           const Icon = m.icon;
           return (
             <div
               key={m.key}
-              className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-col justify-between shadow-sm"
+              className="bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-5 flex flex-col justify-between shadow-sm"
             >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">{m.label}</span>
-                <div className="p-1.5 rounded bg-slate-950 border border-slate-800">
-                  <Icon className="w-3.5 h-3.5" style={{ color: m.color }} />
+              <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                <span className="text-[10px] sm:text-xs font-mono font-bold text-slate-400 uppercase tracking-wider truncate mr-1">{m.label}</span>
+                <div className="p-1 sm:p-1.5 rounded bg-slate-950 border border-slate-800 shrink-0">
+                  <Icon className="w-3 sm:w-3.5 h-3 sm:h-3.5" style={{ color: m.color }} />
                 </div>
               </div>
-              <div className="text-xl sm:text-2xl font-extrabold font-mono text-white my-1">{m.key}</div>
-              <p className="text-[11px] text-slate-400 leading-tight">{m.desc}</p>
+              <div className="text-lg sm:text-2xl font-extrabold font-mono text-white my-0.5 sm:my-1">{m.key}</div>
+              <p className="text-[10px] sm:text-[11px] text-slate-400 leading-tight line-clamp-2">{m.desc}</p>
             </div>
           );
         })}
       </div>
 
       {/* 2. Interactive Experiment Selector & Verified Benchmark Results Table */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5 shadow-sm">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-3.5 sm:p-5 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800">
           <div>
             <h4 className="text-xs font-bold text-slate-100 uppercase tracking-wider flex items-center gap-2">
@@ -51,7 +51,7 @@ export default function ValidationView() {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex overflow-x-auto no-scrollbar touch-scroll gap-1.5 pb-1 sm:pb-0">
             {[
               { id: 'experiment1_regime', label: 'Exp 1: Locked Test (Aug 4–31)' },
               { id: 'experiment2_robustness', label: 'Exp 2: Robustness (Jul 1–Aug 3)' },
@@ -61,7 +61,7 @@ export default function ValidationView() {
               <button
                 key={tab.id}
                 onClick={() => setSelectedExp(tab.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors border ${
+                className={`px-3 py-2 sm:py-1.5 rounded-lg text-xs font-semibold transition-colors border shrink-0 min-h-[38px] sm:min-h-0 cursor-pointer ${
                   selectedExp === tab.id
                     ? 'bg-amber-600 text-slate-950 border-amber-500 font-bold shadow-sm'
                     : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200 hover:bg-slate-800/60'
@@ -85,8 +85,12 @@ export default function ValidationView() {
         </div>
 
         {/* Real Benchmark Numbers Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs font-mono">
+        <p className="sm:hidden text-[10px] font-mono text-amber-400/90 mb-2 flex items-center gap-1">
+          <span>&larr; Swipe horizontally to view full benchmark metrics &rarr;</span>
+        </p>
+
+        <div className="overflow-x-auto touch-scroll">
+          <table className="w-full min-w-[560px] text-left text-xs font-mono">
             <thead>
               <tr className="border-b border-slate-800 text-slate-400 text-[11px]">
                 <th className="pb-2.5 font-bold uppercase tracking-wider">Model / Pipeline</th>

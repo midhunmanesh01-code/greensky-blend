@@ -1,25 +1,25 @@
 import React from 'react';
-import { ShieldCheck, Activity } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 export default function DemoModeBanner() {
   return (
-    <div className="flex items-center justify-between px-4 py-2 bg-slate-950 border-b border-slate-800 text-xs shrink-0">
-      <div className="flex items-center gap-2.5 min-w-0">
+    <div className="flex items-center justify-between px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-950 border-b border-slate-800 text-xs shrink-0">
+      <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
         <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
-        <span className="font-bold text-slate-100 text-xs tracking-wider uppercase truncate">
-          GreenSky Operational Command
+        <span className="font-bold text-slate-100 text-[11px] sm:text-xs tracking-wider uppercase truncate">
+          GreenSky Command
         </span>
         <span className="text-slate-600 hidden md:inline">•</span>
         <span className="text-slate-400 font-mono text-[11px] hidden md:inline truncate">
-          SIH26081 &bull; Historical Benchmark Grid (10.75°N, 76.25°E) &bull; Kerala 6-District Pilot &bull; Convention B (03:00 UTC)
+          SIH26081 &bull; Benchmark Grid (10.75°N, 76.25°E) &bull; Kerala 6-District Pilot &bull; Convention B (03:00 UTC)
         </span>
       </div>
 
-      <div className="flex items-center gap-3 font-mono text-[11px] shrink-0 pl-2">
+      <div className="flex items-center gap-2 sm:gap-3 font-mono text-[11px] shrink-0 pl-2">
         <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-950/40 border border-emerald-800/40 text-emerald-400">
           <ShieldCheck size={12} className="text-emerald-400 shrink-0" />
-          <span className="font-semibold text-[10px] sm:text-[11px] hidden xs:inline">BENCHMARK DATA CONNECTED</span>
-          <span className="font-semibold text-[10px] xs:hidden">CONNECTED</span>
+          <span className="font-semibold text-[10px] sm:text-[11px] hidden sm:inline">BENCHMARK DATA CONNECTED</span>
+          <span className="font-semibold text-[10px] sm:hidden">CONNECTED</span>
         </div>
       </div>
     </div>
