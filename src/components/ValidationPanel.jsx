@@ -55,14 +55,18 @@ export default function ValidationPanel() {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800/60">
-            {exp1.models.map((m) => (
-              <tr key={m.name} className={m.highlight ? 'text-amber-400 font-bold' : 'text-slate-300'}>
-                <td className="py-1.5">{m.name}</td>
-                <td className="py-1.5 text-right">{m.mae.toFixed(2)} mm</td>
-                <td className="py-1.5 text-right">{m.rmse.toFixed(2)} mm</td>
-                <td className="py-1.5 text-right">{m.csi15 !== null ? m.csi15.toFixed(3) : 'N/A'}</td>
-              </tr>
-            ))}
+            {exp1.models.map((m) => {
+              const isHighlight = m.highlight || m.name.toLowerCase().includes('blend');
+              const csiVal = m.csi_15_6 ?? m.csi15;
+              return (
+                <tr key={m.name} className={isHighlight ? 'text-amber-400 font-bold' : 'text-slate-300'}>
+                  <td className="py-1.5">{m.name}</td>
+                  <td className="py-1.5 text-right">{m.mae.toFixed(2)} mm</td>
+                  <td className="py-1.5 text-right">{m.rmse.toFixed(2)} mm</td>
+                  <td className="py-1.5 text-right">{csiVal !== null && csiVal !== undefined ? csiVal.toFixed(3) : 'N/A'}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

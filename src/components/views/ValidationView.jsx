@@ -110,39 +110,48 @@ export default function ValidationView() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60">
-              {expData.models.map((m) => (
-                <tr
-                  key={m.name}
-                  className={`${
-                    m.highlight
-                      ? 'bg-amber-950/20 text-amber-300 font-bold'
-                      : 'text-slate-300 hover:bg-slate-800/30'
-                  }`}
-                >
-                  <td className="py-2.5 pr-2 flex items-center gap-2">
-                    {m.highlight && <span className="w-2 h-2 rounded-full bg-amber-400" />}
-                    <span>{m.name}</span>
-                    {m.type && <span className="text-[10px] text-slate-500 font-normal">({m.type})</span>}
-                  </td>
-                  <td className="py-2.5 text-right font-bold">{m.mae.toFixed(2)}</td>
-                  <td className="py-2.5 text-right font-bold">{m.rmse.toFixed(2)}</td>
-                  <td className="py-2.5 text-right font-bold">
-                    {m.csi15 !== null && m.csi15 !== undefined ? m.csi15.toFixed(3) : 'N/A'}
-                  </td>
-                  {selectedExp === 'experiment1_regime' && (
-                    <>
-                      <td className="py-2.5 text-right text-emerald-400">{m.hits15 ?? '—'}</td>
-                      <td className="py-2.5 text-right text-rose-400">{m.misses15 ?? '—'}</td>
-                      <td className="py-2.5 text-right text-amber-400">{m.fa15 ?? '—'}</td>
-                    </>
-                  )}
-                  {selectedExp === 'experiment2_robustness' && (
-                    <td className="py-2.5 text-right text-slate-500">
-                      {m.csi64 !== null && m.csi64 !== undefined ? m.csi64.toFixed(3) : 'N/A'}
+              {expData.models.map((m) => {
+                const isHighlight = m.highlight || m.name.toLowerCase().includes('blend');
+                const csi15Val = m.csi_15_6 ?? m.csi15;
+                const hitsVal = m.hits ?? m.hits15 ?? m.hits_15_6;
+                const missesVal = m.misses ?? m.misses15 ?? m.misses_15_6;
+                const faVal = m.falseAlarms ?? m.fa15 ?? m.fa_15_6;
+                const csi64Val = m.csi_64_5 ?? m.csi64;
+
+                return (
+                  <tr
+                    key={m.name}
+                    className={`${
+                      isHighlight
+                        ? 'bg-amber-950/20 text-amber-300 font-bold'
+                        : 'text-slate-300 hover:bg-slate-800/30'
+                    }`}
+                  >
+                    <td className="py-2.5 pr-2 flex items-center gap-2">
+                      {isHighlight && <span className="w-2 h-2 rounded-full bg-amber-400" />}
+                      <span>{m.name}</span>
+                      {m.type && <span className="text-[10px] text-slate-500 font-normal">({m.type})</span>}
                     </td>
-                  )}
-                </tr>
-              ))}
+                    <td className="py-2.5 text-right font-bold">{m.mae.toFixed(2)}</td>
+                    <td className="py-2.5 text-right font-bold">{m.rmse.toFixed(2)}</td>
+                    <td className="py-2.5 text-right font-bold">
+                      {csi15Val !== null && csi15Val !== undefined ? csi15Val.toFixed(3) : 'N/A'}
+                    </td>
+                    {selectedExp === 'experiment1_regime' && (
+                      <>
+                        <td className="py-2.5 text-right text-emerald-400">{hitsVal ?? '—'}</td>
+                        <td className="py-2.5 text-right text-rose-400">{missesVal ?? '—'}</td>
+                        <td className="py-2.5 text-right text-amber-400">{faVal ?? '—'}</td>
+                      </>
+                    )}
+                    {selectedExp === 'experiment2_robustness' && (
+                      <td className="py-2.5 text-right text-slate-400 font-mono">
+                        {csi64Val !== null && csi64Val !== undefined ? csi64Val.toFixed(3) : 'N/A (0 events)'}
+                      </td>
+                    )}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
